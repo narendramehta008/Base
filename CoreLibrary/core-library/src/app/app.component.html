@@ -1,0 +1,12 @@
+<ng-container *ngIf="isAuthorized;else unAuthorized">
+
+  <app-nav-icon-toolbar>
+    <h1>Authorized</h1>
+  </app-nav-icon-toolbar>
+</ng-container>
+
+<ng-template #unAuthorized>
+  <div>
+    <p>Unauthorized</p>
+  </div>
+</ng-template>
