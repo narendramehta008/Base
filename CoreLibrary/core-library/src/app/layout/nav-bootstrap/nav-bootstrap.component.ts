@@ -9,8 +9,9 @@ import { AuthenticationService } from 'src/app/shared/services/authentication.se
 })
 export class NavBootstrapComponent implements OnInit {
 
+  isLoggedIn = false;
   constructor(private authService: AuthenticationService) {
-
+    this.isLoggedIn = authService.isLoggedIn;
   }
   ngAfterViewInit() {
 
@@ -18,4 +19,7 @@ export class NavBootstrapComponent implements OnInit {
   ngOnInit() {
   }
 
+  signOut() {
+    this.authService.logOut();
+  }
 }

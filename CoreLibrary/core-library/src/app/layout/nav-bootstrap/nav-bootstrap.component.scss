@@ -1,7 +1,8 @@
 @import "/src/app/shared/styles/overrides/scrollbar.scss";
+$nav-width: 17rem;
 .vertical-nav {
-  min-width: 17rem;
-  width: 17rem;
+  min-width: $nav-width;
+  width: $nav-width;
   height: calc(100% - 2rem);
   position: fixed;
   top: 0;
@@ -11,13 +12,13 @@
   overflow-y: scroll;
 }
 .page-content {
-  width: calc(100% - 17rem);
-  margin-left: 17rem;
+  width: calc(100% - $nav-width);
+  margin-left: $nav-width;
   transition: all 0.4s;
 }
 
 #sidebar.active {
-  margin-left: -17rem;
+  margin-left: -$nav-width;
 }
 
 #content.active {
@@ -47,7 +48,7 @@
 }
 @media (max-width: 768px) {
   #sidebar {
-    margin-left: -17rem;
+    margin-left: -$nav-width;
   }
   #sidebar.active {
     margin-left: 0;
@@ -57,8 +58,8 @@
     margin: 0;
   }
   #content.active {
-    margin-left: 17rem;
-    width: calc(100% - 17rem);
+    margin-left: $nav-width;
+    width: calc(100% - $nav-width);
   }
 }
 

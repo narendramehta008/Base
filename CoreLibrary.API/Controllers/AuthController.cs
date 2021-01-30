@@ -1,6 +1,7 @@
 ﻿using CoreLibrary.API.Data.Entities;
 using CoreLibrary.API.DTOModels;
 using CoreLibrary.API.Interfaces.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -13,6 +14,7 @@ namespace CoreLibrary.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _repo;
@@ -62,7 +64,11 @@ namespace CoreLibrary.API.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new { token = tokenHandler.WriteToken(token) });
+            return Ok(new {
+                token = tokenHandler.WriteToken(token), 
+                expires= new DateTimeOffset(tokenDescriptor.Expires.Value).Second,
+                userData = userFromRepo
+            });
         }
     }
 }

@@ -15,15 +15,15 @@ export class AuthenticationService {
     let storageToken = localStorage.getItem(environment.tokenName);
     if (storageToken) {
       this.tokenDetails = JSON.parse(storageToken);
-      if (this.tokenDetails.access_token) this.isLoggedIn = true;
+      if (this.tokenDetails.token) this.isLoggedIn = true;
     }
   }
   login(loginModel: LoginModel) {
     const params = {
-      email: loginModel.email,
+      username: loginModel.username,
       password: loginModel.password
     }
-    return this.httpClient.post(environment.apiEndPoint.login, loginModel)
+    return this.httpClient.post(environment.apiEndPoint.auth.login, loginModel)
       .pipe(
         map((res) => res),
         map((body) => body),

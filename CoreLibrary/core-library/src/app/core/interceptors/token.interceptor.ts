@@ -15,12 +15,12 @@ export class TokenInterceptor implements HttpInterceptor {
         if (request.url.includes('pstmn.io')) {
             return next.handle(request);
         }
-        if (request.url.includes('/auth/token') === false) {
+        if (request.url.includes('/auth/login') === false) {
             let token = '';
             const tokenDetails = localStorage.getItem(environment.tokenName) || null;
             if (tokenDetails) {
                 let tempTokenDetail: TokenModel = JSON.parse(tokenDetails);
-                token = tempTokenDetail.access_token;
+                token = tempTokenDetail.token;
             }
             request = request.clone({
                 headers: request.headers.set('Authorization', `Bearer ${token}`)

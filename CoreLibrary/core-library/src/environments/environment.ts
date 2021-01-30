@@ -1,10 +1,13 @@
 
 export const environment = {
-  serverUrl: 'http://localhost:44373/api/',
-  serverOrigin: 'http://localhost:44373',
+  serverUrl: 'https://localhost:44373/api/',
+  serverOrigin: 'https://localhost:44373',
   tokenName: 'tokenDetails',
   apiEndPoint: {
-    login: 'auth/token',
+    auth: {
+      login: 'auth/login',
+      register: 'auth/register',
+    },
     user: {
       userLoggedIn: 'user/logged-in',
       profilePic: 'user/0/profile/picture',

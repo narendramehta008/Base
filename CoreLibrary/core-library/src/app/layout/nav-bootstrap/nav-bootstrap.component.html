@@ -1,5 +1,6 @@
 <!-- Vertical navbar -->
-<div class="vertical-nav bg-transparent2-3"
+<div *ngIf="isLoggedIn;else"
+  class="vertical-nav bg-transparent2-3"
   id="sidebar">
   <div class="py-4 px-3 mb-4 bg-transparent2-3">
     <div class="media d-flex align-items-center">
@@ -86,5 +87,17 @@
     </li>
 
   </ul>
+  <ul class="nav flex-column bg-transparent2-3 mb-0">
+    <li class="nav-item">
+      <a href="#"
+        (click)="signOut()"
+        class="nav-link text-dark">
+        <i class="fa fa-sign-out mr-3 text-primary fa-fw"></i>
+        Logout
+      </a>
+    </li>
+    <!-- fa fa-sign-out -->
+  </ul>
 </div>
+
 <!-- End vertical navbar -->

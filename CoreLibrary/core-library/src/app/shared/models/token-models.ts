@@ -5,10 +5,10 @@ export interface UserData {
 }
 
 export interface TokenModel {
-    access_token: string;
+    token: string;
     expires: number;
     token_type: string;
-    requiresPasswordChange: boolean;
+    isAdmin: boolean;
     userData: UserData;
     account: string;
 }

@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginModel)
       .toPromise()
       .then((res: any) => {
-        if (res && res.access_token) {
+        if (res && res.token) {
           localStorage.setItem('tokenDetails', JSON.stringify(res));
           this.authService.isLoggedIn = true;
           this.router.navigate(['/dashboard']);

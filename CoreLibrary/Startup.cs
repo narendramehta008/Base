@@ -22,8 +22,9 @@ namespace CoreLibrary
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureSqliteDbServices<DataContext>(Configuration);
+            services.ConfigureJwtServices(Configuration);
             services.ConfigureServices();
-
+            
             //FrontEndConfigureServices(services);
         }
 

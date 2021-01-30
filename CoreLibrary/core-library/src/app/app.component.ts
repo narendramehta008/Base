@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthenticationService } from './shared/services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -6,8 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  isAuthorized = false;
+  constructor(private authService: AuthenticationService) {
+    this.isAuthorized = authService.isLoggedIn;
+  }
   title = 'core-library';
-  isAuthorized = true;
 
 
 }

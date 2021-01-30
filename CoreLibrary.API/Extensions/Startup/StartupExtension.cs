@@ -1,23 +1,27 @@
 ﻿using CoreLibrary.API.Interfaces.Authentication;
 using CoreLibrary.API.Services.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Text;
 
 namespace CoreLibrary.API.Extensions.Startup
 {
     public static class StartupExtension
     {
+        private static bool IsAuthentication = false;
         // This method gets called by the runtime. Use this method to add services to the container.
         public static IServiceCollection ConfigureServices(this IServiceCollection services)
         {
             services.AddControllers();
-            services.ConfigureSwaggerServices();
+            services.ConfigureSwaggerServices(true);
             return services;
         }
 
@@ -31,6 +35,22 @@ namespace CoreLibrary.API.Extensions.Startup
             var repo = services.BuildServiceProvider().GetRequiredService<TRepo>() as Data.DataContextBase<TRepo>;
             services.AddSingleton(repo);
             services.AddScoped<IAuthRepository, AuthRepository<TRepo>>();
+            return services;
+        }
+        public static IServiceCollection ConfigureJwtServices(this IServiceCollection services
+                        , IConfiguration configuration, string defaultPath = "AppSetting:Token")
+        {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection(defaultPath).Value)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
             return services;
         }
 
@@ -48,11 +68,16 @@ namespace CoreLibrary.API.Extensions.Startup
 
             app.UseRouting();
 
+      
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers()
+                //NOTE: only add when authentication is added in services
+                .RequireAuthorization();
             });
         }
 

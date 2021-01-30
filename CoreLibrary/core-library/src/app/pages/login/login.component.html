@@ -5,14 +5,14 @@
             #heroForm="ngForm">
             <p *ngIf="errorMessage">{{errorMessage}}</p>
             <div class="form-group">
-                <label for="name">E-MAIL</label>
+                <label for="name">username</label>
                 <input type="text"
                     class="form-control"
-                    id="email"
+                    id="username"
                     required
-                    [(ngModel)]="loginModel.email"
-                    name="email"
-                    #email="ngModel">
+                    [(ngModel)]="loginModel.username"
+                    name="username"
+                    #username="ngModel">
                 <!-- <div [hidden]="email.valid || email.pristine"
                     class="alert alert-danger">
                     Email is required
@@ -20,7 +20,7 @@
             </div>
 
             <div class="form-group">
-                <label for="password">PASSWORD</label>
+                <label for="password">password</label>
                 <input type="password"
                     class="form-control"
                     id="password"
