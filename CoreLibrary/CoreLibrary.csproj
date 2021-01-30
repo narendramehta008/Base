@@ -24,9 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Helper\StartUp\" />
-    <Folder Include="Services\Startup\" />
+    <Folder Include="Services\Authentication\" />
   </ItemGroup>
 
   <ItemGroup>

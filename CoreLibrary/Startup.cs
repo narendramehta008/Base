@@ -1,10 +1,11 @@
+using CoreLibrary.API.Extensions.Startup;
+using CoreLibrary.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using CoreLibrary.API.Extensions.Startup;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 
 namespace CoreLibrary
 {
@@ -20,13 +21,20 @@ namespace CoreLibrary
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureSqliteDbServices<DataContext>(Configuration);
             services.ConfigureServices();
-            //services.AddControllersWithViews();
-            //// In production, the Angular files will be served from this directory
-            //services.AddSpaStaticFiles(configuration =>
-            //{
-            //    configuration.RootPath = "ClientApp/dist";
-            //});
+
+            //FrontEndConfigureServices(services);
+        }
+
+        public void FrontEndConfigureServices(IServiceCollection services)
+        {
+            services.AddControllersWithViews();
+            // In production, the Angular files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,6 +43,7 @@ namespace CoreLibrary
             app.Configure(env);
             //FrontEndConfigure(app, env);
         }
+
         public void FrontEndConfigure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -62,7 +71,6 @@ namespace CoreLibrary
             {
                 endpoints.MapControllers();
             });
-
 
             app.UseEndpoints(endpoints =>
             {
