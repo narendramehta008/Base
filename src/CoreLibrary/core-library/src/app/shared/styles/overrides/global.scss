@@ -1,0 +1,7 @@
+.op {
+  @each $decimal in $decimals {
+    &-#{$decimal} {
+      opacity: #{$decimal/10} !important;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+@mixin borderBack($backA:0.2, $borderColor:$theme-color-rgb) {
+  background: rgba($borderColor, $alpha: $backA) !important;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba($borderColor, $alpha: 0.5);
+  border-right: 1px solid $borderColor;
+  border-bottom: 1px solid rgba($borderColor, $alpha: 0.2);
+}
+
+
+@mixin breakpoint ($breakpoint:md, $key:min, $orientation:false) {
+  @if ($orientation) {
+    @media (#{$key}-width: map-get($breakpoints, $breakpoint)) and (orientation : $orientation) {
+      @content;
+    }
+  }
+
+  @else {
+    @media (#{$key}-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+}

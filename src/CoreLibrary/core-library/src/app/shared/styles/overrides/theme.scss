@@ -1,0 +1,39 @@
+.bg {
+
+  @each $name,
+  $color in $appColors {
+    &-#{$name} {
+      background: $color !important;
+    }
+  }
+}
+
+.fg {
+
+  @each $name,
+  $color in $appColors {
+    &-#{$name} {
+      color: $color !important;
+    }
+  }
+}
+
+.color {
+
+  @each $key,
+  $color in $colors {
+    &-#{$key} {
+      color: $color !important;
+    }
+  }
+}
+
+.bg {
+
+  @each $key,
+  $color in $colors {
+    &-#{$key} {
+      background: $color !important;
+    }
+  }
+}

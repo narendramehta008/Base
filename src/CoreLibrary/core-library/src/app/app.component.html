@@ -1,0 +1,28 @@
+<ng-container *ngIf="isAuthorized;else unAuthorized">
+
+  <!-- <app-nav-icon-toolbar>
+    <h1>Authorized</h1>
+  </app-nav-icon-toolbar> -->
+
+  <div class="container">
+    <app-nav-menu></app-nav-menu>
+  </div>
+
+  <div class="page-content p-2"
+    id="content">
+    <!-- Toggle button -->
+    <button id="sidebarCollapse"
+      type="button"
+      class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4"><i class="fa fa-bars mr-2"></i></button>
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+  <app-footer></app-footer>
+</ng-container>
+
+<ng-template #unAuthorized>
+  <router-outlet></router-outlet>
+  <app-footer></app-footer>
+</ng-template>

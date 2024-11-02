@@ -1,0 +1,17 @@
+
+#content #sidebarCollapse {
+  position: fixed;
+}
+
+#content .main-content {
+  margin-top: 3em;
+  overflow-x: hidden;
+}
+
+.bg {
+  background: var(--baseColor) !important;
+}
+
+.route-container {
+  min-height: 100vh;
+}
