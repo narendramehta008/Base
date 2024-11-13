@@ -9,17 +9,28 @@ import { AdministratorComponent } from './pages/administrator/administrator.comp
 import { AuthGuardService } from './shared/services/auth-guard.service';
 import { SharedModule } from './shared/shared.module';
 import { provideHttpClient } from '@angular/common/http';
+import { BtspModule } from './shared/btsp/btsp.module';
 // import { NavMenuComponent } from './layout/nav-menu/nav-menu.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NavMenuComponent, 
-    FooterComponent, CommonModule, LoginComponent,DashboardComponent,
-  AdministratorComponent, SharedModule],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    NavMenuComponent,
+    FooterComponent,
+    CommonModule,
+    LoginComponent,
+    DashboardComponent,
+    AdministratorComponent,
+    SharedModule,
+    BtspModule,
+  ],
 
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   isAuthorized = true;

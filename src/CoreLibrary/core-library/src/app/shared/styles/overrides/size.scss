@@ -1,0 +1,15 @@
+.w {
+  @each $percent in $percents {
+    &-#{$percent} {
+      width: calc($percent * 1%) !important;
+    }
+  }
+}
+
+.h {
+  @each $percent in $percents {
+    &-#{$percent} {
+      height: calc($percent * 1%) !important;
+    }
+  }
+}
