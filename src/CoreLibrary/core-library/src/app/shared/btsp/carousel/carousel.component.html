@@ -1,22 +1,24 @@
-<div *ngIf="items.length>0" id="carouselExampleDark" class="carousel carousel-dark slide">
-    <div class="carousel-indicators">
-        <ng-container *ngFor="let card of items;index as index">
-            <button type="button" data-bs-target="#carouselExampleDark" [attr.data-bs-slide-to]="index"
+<div *ngIf="carouselItems && carouselItems.length>0" [attr.id]="carousel.Id" class="carousel carousel-dark slide">
+    <div *ngIf="carousel.Indicators" class="carousel-indicators">
+        <ng-container *ngFor="let card of carouselItems;index as index">
+            <button type="button" [attr.data-bs-target]="'#'+carousel.Id" [attr.data-bs-slide-to]="index"
                 [ngClass]="index==0?'active':''" [attr.aria-current]="index==0"
                 [attr.aria-label]="'Slide '+ index+1"></button>
         </ng-container>
     </div>
     <div class="carousel-inner">
-        <ng-container *ngFor="let card of items;index as index">
-            <ng-content *ngTemplateOutlet="item;context:{item:card, index:index}">
-            </ng-content>
+        <ng-container *ngFor="let card of carouselItems;index as index">
+            <ng-container *ngTemplateOutlet="item;context:{item:card, index:index}">
+            </ng-container>
         </ng-container>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+    <button *ngIf="carousel.Buttons" class="carousel-control-prev" type="button" [attr.data-bs-target]="'#'+carousel.Id"
+        data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+    <button *ngIf="carousel.Buttons" class="carousel-control-next" type="button" [attr.data-bs-target]="'#'+carousel.Id"
+        data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
@@ -24,10 +26,14 @@
 
 <ng-template #item let-item="item" let-index="index">
     <div class="carousel-item" [ngClass]="index==0?'active':''" data-bs-interval="10000">
-        <img [src]="item.ImageSrc" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
+        <img *ngIf="!carousel.OnlyContent && item.ImageSrc" [src]="item.ImageSrc" class="d-block w-100" alt="...">
+
+        <div *ngIf="item.Header || item.Details" class="carousel-caption d-none d-md-block">
+            <!-- <ng-container *ngTemplateOutlet="item.Template;"></ng-container> -->
             <h5 *ngIf="item.Header">{{item.Header}}</h5>
             <p *ngIf="item.Details">{{item.Details}}</p>
+
         </div>
+        <ng-container *ngTemplateOutlet="item.Template"></ng-container>
     </div>
 </ng-template>

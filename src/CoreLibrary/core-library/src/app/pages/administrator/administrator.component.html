@@ -1,4 +1,9 @@
-<div class="container w-50 h-50">
-    <btsp-carousel [items]="carouselItems">
+<div class="container">
+    <btsp-carousel>
+        <btsp-carousel-item *ngFor="let image of images" [ImageSrc]="image">
+            <ng-template #carouselTemplate>
+                {{image}}
+            </ng-template>
+        </btsp-carousel-item>
     </btsp-carousel>
 </div>

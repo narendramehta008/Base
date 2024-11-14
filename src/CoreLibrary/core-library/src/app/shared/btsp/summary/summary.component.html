@@ -1,0 +1,34 @@
+<button *ngIf="showExpander" class="bg-transparent m-2" (click)="expandAll()">
+    <i class="fa" [class]="expanded?'fa-angle-double-down':'fa-angle-double-up'"></i>
+</button>
+<ng-container *ngFor="let summary of summarys">
+    <ng-container *ngTemplateOutlet="summaryTemplate;context:{summary:summary}"></ng-container>
+</ng-container>
+
+<ng-template #summaryTemplate let-summary="summary">
+    <details class="bg-bright rounded p-2 mb-2" [ngClass]="detailClass">
+        <summary class="fs-5 ">
+            <b> {{summary.header}}</b>
+
+        </summary>
+        <p *ngIf="summary.subHeader" class="fw-bold fs-6 ms-2">{{summary.subHeader}}</p>
+
+        <div *ngFor="let line of summary?.lines" class="font-monospace ms-2 mb-0" [innerHTML]="line"></div>
+        <pre *ngFor="let code of summary?.codes" class="font-monospace ms-2 mb-0">
+            <code >
+                {{code}}
+            </code>
+        </pre>
+
+        <ol *ngIf="summary.summaryHeader && summary.summarys">
+            <p class="fw-bold fs-5 ">{{summary.summaryHeader}}</p>
+            <ul *ngFor="let nestedSummary of summary.summarys">
+                <ng-template [ngTemplateOutlet]="summaryTemplate" [ngTemplateOutletContext]="{ summary:nestedSummary }">
+                </ng-template>
+            </ul>
+        </ol>
+        <ng-container *ngFor="let template of summary.templates">
+            <ng-container [ngTemplateOutlet]="template"></ng-container>
+        </ng-container>
+    </details>
+</ng-template>

@@ -1,5 +1,7 @@
+@import "bootstrap/scss/bootstrap.scss";
 @import "../../variable";
 @import "./utilities/utils.scss";
+@import "./overrides/size.scss";
 @import "./overrides/scrollbar.scss";
 @import "./overrides/card.scss";
 @import "./overrides/forms.scss";

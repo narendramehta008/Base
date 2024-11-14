@@ -7,11 +7,9 @@ import { LoginModel } from '../models/authentication-models';
 import { catchError, map, of, throwError } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class AuthenticationService {
-
   tokenDetails: TokenModel | undefined;
   isLoggedIn = false;
   constructor(private router: Router, private httpClient: HttpClient) {
@@ -21,26 +19,14 @@ export class AuthenticationService {
       if (this.tokenDetails?.token) this.isLoggedIn = true;
     }
   }
-  
-  login(loginModel: LoginModel) {
-      const params = {
-        username: loginModel.username,
-        password: loginModel.password
-      }
-      return this.httpClient.post(environment.apiEndPoint.auth.login, loginModel)
-        .pipe(
-          map((res) => res),
-          map((body) => body),
-          catchError((err) => of(err))
-        );
-  }
 
- getRequest(url:string, params?:any) {
-    return this.httpClient.get(url, params)
+  login(loginModel: LoginModel) {
+    return this.httpClient
+      .post(environment.apiEndPoint.auth.login, loginModel)
       .pipe(
         map((res) => res),
         map((body) => body),
-        catchError((body) => of(body))
+        catchError((err) => of(err))
       );
   }
 

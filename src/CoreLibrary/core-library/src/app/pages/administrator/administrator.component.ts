@@ -1,21 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { BtspModule } from '../../shared/btsp/btsp.module';
-import { CarouselItem } from '@app/shared/btsp/carousel/carousel.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-administrator',
   standalone: true,
-  imports: [BtspModule],
+  imports: [BtspModule, CommonModule],
   templateUrl: './administrator.component.html',
   styleUrl: './administrator.component.scss',
 })
 export class AdministratorComponent implements OnInit {
-  ngOnInit(): void {
-    this.images.map((val, index) => {
-      this.carouselItems.push({ ImageSrc: val });
-    });
-  }
-  carouselItems: CarouselItem[] = [];
+  ngOnInit(): void {}
   images = [
     'https://i.pinimg.com/736x/9e/36/f5/9e36f5bfa3d753b380e9adb600b45b5c.jpg',
     'https://i.pinimg.com/736x/e8/eb/8a/e8eb8ace03104ccb6a33f4892110a66a.jpg',

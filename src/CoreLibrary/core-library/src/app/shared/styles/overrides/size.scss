@@ -1,4 +1,4 @@
-.w {
+.wp {
   @each $percent in $percents {
     &-#{$percent} {
       width: calc($percent * 1%) !important;
@@ -6,10 +6,26 @@
   }
 }
 
-.h {
+.hp {
   @each $percent in $percents {
     &-#{$percent} {
       height: calc($percent * 1%) !important;
+    }
+  }
+}
+
+.wf {
+  @each $hundred in $hundreds {
+    &-#{$hundred} {
+      width: calc($hundred * 1px) !important;
+    }
+  }
+}
+
+.hf {
+  @each $hundred in $hundreds {
+    &-#{$hundred} {
+      height: calc($hundred * 1px) !important;
     }
   }
 }

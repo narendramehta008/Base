@@ -1,0 +1,18 @@
+<div class="d-flex">
+    <a *ngIf="showDownloadAll && dataSource.length > 0" (click)="downloadImages()" ngbTooltip="Download Images">
+        <i class="fa fa-download" aria-hidden="true"></i>
+    </a>
+    <a *ngIf="showExportUrls && dataSource.length > 0" (click)="exportUrls()" ngbTooltip="Export Url">
+        <i class="fa fa-link"></i>
+    </a>
+</div>
+
+<div class="row row-cols-auto gy-3">
+
+    <ng-container *ngIf="dataSource.length > 0">
+        <div [class]='cardWrapperClass' *ngFor="let chunk of dataSource">
+            <btsp-card [cards]="chunk.cards" [cardTemplate]="chunk"></btsp-card>
+        </div>
+    </ng-container>
+
+</div>
