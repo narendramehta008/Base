@@ -5,6 +5,7 @@ import { ServicesComponent } from './services.component';
 import { JsonHandlerComponent } from './json-handler/json-handler.component';
 import { UtilsService } from '@app/shared/services/utils.service';
 import { LearningComponent } from './learning/learning.component';
+import { DataHandlerComponent } from './data-handler/data-handler.component';
 
 export const routes: Routes = [
   {
@@ -29,6 +30,14 @@ export const routes: Routes = [
     data: {
       depth: 3,
       icon: 'https://i.pinimg.com/736x/5e/79/b8/5e79b834353ae1ebde314f6285e22408.jpg',
+    },
+  },
+  {
+    path: 'data-handler',
+    component: DataHandlerComponent,
+    data: {
+      depth: 3,
+      icon: 'https://i.pinimg.com/736x/0c/9a/89/0c9a89c556a0e8d94659222a82dcffcc.jpg',
     },
   },
 ];

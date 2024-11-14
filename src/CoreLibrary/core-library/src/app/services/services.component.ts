@@ -55,26 +55,16 @@ export class ServicesComponent implements AfterContentChecked {
       }),
 
       new CardComponent(this.utilService).setCardValue({
-        title: 'Pinterest',
+        title: 'Data Manipulation',
         fontClass: 'fg-theme',
+        cardClass: 'card-neu',
         media: {
-          src: this.images[2],
+          src: routes[3].data?.['icon'],
         },
         onHoverShowDetails: true,
-        redirectUrl: '/services/pin',
+        redirectUrl: `/services/${routes[3].path}`,
         redirectName: 'Visit',
-        text: "Looking for creative ideas? Whether you're planning your next big travel adventure, searching for home design concepts, looking for fashion & fitness ...",
-      }),
-      new CardComponent(this.utilService).setCardValue({
-        title: 'Data Structure and Algorithms',
-        fontClass: 'fg-theme',
-        media: {
-          src: this.images[3],
-        },
-        onHoverShowDetails: true,
-        redirectUrl: '/dsa/introduction',
-        redirectName: 'Visit',
-        text: 'Here we discuss basic cpncepts of DS',
+        text: 'Data Manipulation',
       }),
     ];
     this.dataSource.push(...card);
