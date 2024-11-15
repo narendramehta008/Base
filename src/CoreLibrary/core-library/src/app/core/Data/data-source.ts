@@ -1,4 +1,19 @@
+import { IKeyValue } from '../models/Funcs';
+
 export class DataSource {
+  getTestApis(): IKeyValue<string, string>[] {
+    return [
+      {
+        id: 'GET',
+        value:
+          'https://www.rawpixel.com/api/v1/topics?lang=en&page=1&pagesize=100&sort=trending&type=topic%2Ctopic_group',
+      },
+      {
+        id: 'GET',
+        value: 'https://jsonplaceholder.typicode.com/photos',
+      },
+    ];
+  }
   getImages() {
     return [
       'https://i.pinimg.com/736x/9e/36/f5/9e36f5bfa3d753b380e9adb600b45b5c.jpg',

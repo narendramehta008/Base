@@ -33,3 +33,8 @@ export interface Summary {
   summarys?: Summary[];
   templates?: TemplateRef<ElementRef>[];
 }
+
+export interface IKeyValue<TKey, TValue> {
+  id: TKey;
+  value: TValue;
+}

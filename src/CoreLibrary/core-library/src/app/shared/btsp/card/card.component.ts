@@ -40,9 +40,17 @@ export class CardComponent implements OnInit {
     }
   }
 
-  setCardValue(card?: ICardTemplate) {
+  setCardValue(card?: ICardTemplate, defaultValue?: boolean) {
     if (!card) return this;
-    this.cards.push(this.setCardDefault(card));
+    if (defaultValue) this.cards.push(this.setCardDefault(card));
+    else {
+      card.media &&
+        (card.media = {
+          src: card.media.src,
+          type: card.media.type || 'Image',
+        });
+      this.cards.push(card);
+    }
     return this;
   }
 

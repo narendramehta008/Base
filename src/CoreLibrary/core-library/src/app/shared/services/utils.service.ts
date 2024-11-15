@@ -46,7 +46,8 @@ export class UtilsService {
         map((result: HttpResponse<Blob>) => {
           const contentDisposition = result.headers.get('content-disposition');
           let filename: any =
-            this.getFilenameFromContentDisposition(contentDisposition);
+            this.getFilenameFromContentDisposition(contentDisposition) ||
+            this.getFileNameFromUrl(url);
           this.fileSaver.save(result.body, filename);
           return result;
         })
@@ -54,6 +55,13 @@ export class UtilsService {
   }
   getRequest(url: string, params?: any) {
     return this.httpClient.get(url, params).pipe(
+      map((res) => res),
+      map((body) => body),
+      catchError((body) => of(body))
+    );
+  }
+  postRequest(url: string, postData?: any) {
+    return this.httpClient.post(url, postData).pipe(
       map((res) => res),
       map((body) => body),
       catchError((body) => of(body))
@@ -68,5 +76,10 @@ export class UtilsService {
     let filename = match?.groups?.['filename'];
     filename = filename?.replaceAll('"', '');
     return filename;
+  }
+
+  private getFileNameFromUrl(url: string) {
+    let reg = new RegExp('\\S+/');
+    return url.replace(reg, '');
   }
 }

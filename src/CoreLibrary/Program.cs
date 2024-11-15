@@ -21,6 +21,7 @@ public class Program
             builder.Services.ConfigureSqliteDbServices<DataContext>(builder.Configuration);
             builder.Services.ConfigureServices();
             builder.Services.AddControllers();
+            builder.Services.ConfigureJwtServices(builder.Configuration);
 
             builder.Services.AddScoped<IDbRepository, DbRepository>();
             builder.Services.AddScoped<IAuthRepository, AuthRepository>();
