@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 
 @Component({
@@ -10,15 +10,13 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
   templateUrl: './nav-menu.component.html',
   styleUrl: './nav-menu.component.scss',
 })
-export class NavMenuComponent {
-  //implements AfterViewInit
-  isLoggedIn = true;
-  constructor(private authService: AuthenticationService) {}
-  // ngAfterViewInit() {
-  //   this.authService.checkLoggedIn();
-  //   this.isLoggedIn = this.authService.isLoggedIn;
-  // }
-  ngOnInit() {}
+export class NavMenuComponent implements OnInit{
+ 
+  constructor(private authService: AuthenticationService, private router: Router) {}
+
+  ngOnInit() {
+    // this.router.ac
+  }
 
   signOut() {
     this.authService.logOut();

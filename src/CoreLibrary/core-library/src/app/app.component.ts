@@ -9,6 +9,7 @@ import { AdministratorComponent } from './pages/administrator/administrator.comp
 import { SharedModule } from './shared/shared.module';
 import { BtspModule } from './shared/btsp/btsp.module';
 import { ServicesModule } from './services/services.module';
+import { AuthenticationService } from './shared/services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -32,8 +33,12 @@ import { ServicesModule } from './services/services.module';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  constructor() {}
-  ngOnInit(): void {}
-  isAuthorized = true;
+  constructor(private authService: AuthenticationService) { }
+
+  isAuthorized = false;
   title = 'ang-app';
+
+  ngOnInit(): void {
+    this.isAuthorized = this.authService.isLoggedIn
+  }
 }

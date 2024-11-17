@@ -28,7 +28,6 @@ export class LoginComponent {
   onSubmit() {
 
     // this.authService.login(this.loginModel).subscribe((res)=>{console.log(res)},error=>{console.log(error);})
-
     this.authService.login(this.loginModel).subscribe((res: any) => {
       if (res && res.token) {
         localStorage.setItem('tokenDetails', JSON.stringify(res));
@@ -39,9 +38,7 @@ export class LoginComponent {
       else {
         this.errorMessage = 'Invalid Email or password';
       }
-    }, error => {
-      this.errorMessage = error.statusText || 'Something went wrong';
+      // this.errorMessage = error.statusText || 'Something went wrong';
     });
-
   }
 }

@@ -6,7 +6,7 @@ import {
   HttpInterceptorFn,
   HttpRequest,
 } from '@angular/common/http';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 import { request } from 'http';
 import { Observable } from 'rxjs';
 

@@ -29,3 +29,7 @@
     }
   }
 }
+
+.glassom{
+  @include borderBack(0.1);
+}

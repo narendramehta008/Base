@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { TokenModel } from '../models/token-models';
 import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LoginModel } from '../models/authentication-models';
 import { catchError, map, of, throwError } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -12,12 +13,16 @@ import { catchError, map, of, throwError } from 'rxjs';
 export class AuthenticationService {
   tokenDetails: TokenModel | undefined;
   isLoggedIn = false;
-  constructor(private router: Router, private httpClient: HttpClient) {
-    let storageToken = localStorage?.getItem(environment.tokenName);
-    if (storageToken) {
-      this.tokenDetails = JSON.parse(storageToken);
-      if (this.tokenDetails?.token) this.isLoggedIn = true;
+  constructor(private router: Router, private httpClient: HttpClient, @Inject(DOCUMENT) private document: Document) {
+    if (document.defaultView?.localStorage) {
+      let storageToken = localStorage?.getItem(environment.tokenName);
+      if (storageToken) {
+        this.tokenDetails = JSON.parse(storageToken);
+        if (this.tokenDetails?.token && this.tokenDetails.expires > Date.now()) this.isLoggedIn = true;
+        // else localStorage?.removeItem(environment.tokenName);
+      }
     }
+
   }
 
   login(loginModel: LoginModel) {

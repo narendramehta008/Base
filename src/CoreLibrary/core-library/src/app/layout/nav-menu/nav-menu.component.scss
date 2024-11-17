@@ -46,8 +46,11 @@ $nav-width: 17rem;
   text-transform: capitalize;
 }
 
-.nav-link:hover {
-  background: #f3f2f2;
+.nav-link{
+  &:hover, &.active{
+    background: #f3f2f2;
+  }
+  
 }
 
 .text-primary {
@@ -95,4 +98,8 @@ $nav-width: 17rem;
 
 .dropdown-menu.show {
   top: 0;
+}
+
+.text-group{
+  color: #3e5164;
 }

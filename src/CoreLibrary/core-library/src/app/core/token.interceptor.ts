@@ -28,7 +28,7 @@ return next(request).pipe(
         }
     }, (err: any) => {
         if (err instanceof HttpErrorResponse) {
-            if (err.status === 401) {
+            if (err.status === 401 && !err.error) {
                 authService.logOut();
             }
         }

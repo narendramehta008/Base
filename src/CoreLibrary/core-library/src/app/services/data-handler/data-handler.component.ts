@@ -76,6 +76,7 @@ export class DataHandlerComponent implements OnInit {
         })
         .subscribe((res) => {
           let result: string = '';
+          console.log(res);
           if (typeof res == 'string') result = res;
           else result = JSON.stringify(res);
           this.getControl('data').setValue(result);
@@ -118,7 +119,7 @@ export class DataHandlerComponent implements OnInit {
   htmlOperations() {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(
-      this.getControlValue('value'),
+      this.getControlValue('data'),
       'text/html'
     );
     this.results = Array.from(htmlDoc.getElementsByTagName('img')).map(
