@@ -12,4 +12,5 @@ public interface IAuthRepository<TDbContext> where TDbContext : DbContext
     Task<User?> Login(string username, string password);
 
     Task<bool> UserExists(string username);
+    Task<int> AddRole(string role, string description);
 }

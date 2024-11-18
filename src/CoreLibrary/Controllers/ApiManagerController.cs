@@ -15,14 +15,12 @@ public class ApiManagerController : ControllerBase
     private readonly IDbRepository _dbRepository;
     private readonly IRestApiRepository _restApi;
     private readonly ILogger<ApiManagerController> _logger;
-    private readonly HttpClient _httpClient;
 
-    public ApiManagerController(IDbRepository dbRepository, IHttpClientFactory httpClientFactory, IRestApiRepository restApi, ILogger<ApiManagerController> logger)
+    public ApiManagerController(IDbRepository dbRepository, IRestApiRepository restApi, ILogger<ApiManagerController> logger)
     {
         _dbRepository = dbRepository;
         _restApi = restApi;
         _logger = logger;
-        _httpClient = httpClientFactory.CreateClient();
     }
 
     [HttpPost("[action]")]

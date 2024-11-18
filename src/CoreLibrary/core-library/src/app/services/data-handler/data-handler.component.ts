@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { IKeyValue } from '@app/core/models/Funcs';
+import { ITableTemplate, TableTemplate } from '@app/core/models/TableTemplate';
 import {
   CardComponent,
   ICardTemplate,
@@ -37,8 +38,9 @@ export class DataHandlerComponent implements OnInit {
   ];
   errorMessage = '';
   dataSource: CardComponent[] = [];
+  tableTemplate: ITableTemplate = { dataSource: [] };
 
-  constructor(private utils: UtilsService) {}
+  constructor(private utils: UtilsService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.dataFormGroup.addControl(
@@ -54,6 +56,7 @@ export class DataHandlerComponent implements OnInit {
     );
     this.dataFormGroup.addControl('apiUrl', new FormControl());
     this.dataFormGroup.addControl('showCards', new FormControl(true));
+    this.dataFormGroup.addControl('populateTable', new FormControl(false));
     this.dataFormGroup.addControl(
       'predefinedOperations',
       new FormControl(1, [Validators.pattern('^[1]*$')])
@@ -95,6 +98,7 @@ export class DataHandlerComponent implements OnInit {
       if (this.getControlValue('type') == 1) this.jsonOperations();
       else this.htmlOperations();
       this.getControlValue('showCards') && this.populateCards();
+      this.getControlValue('populateTable') && this.populateTable();
     } else {
       // this.dataFormGroup.errors
       this.errorMessage = '';
@@ -139,6 +143,14 @@ export class DataHandlerComponent implements OnInit {
         });
     });
     this.dataSource.push(...cards);
+  }
+
+  populateTable() {
+    this.resultsString = this.results.join('\n');
+    this.tableTemplate.dataSource = this.results.map((item) =>
+      JSON.parse(item)
+    );
+    this.tableTemplate = new TableTemplate(this.tableTemplate, this.cdr);
   }
 
   resetData() {

@@ -27,6 +27,9 @@ public static class DbExtensions
 
                     if (!_authRepository.UserExists("admin").Result)
                     {
+                        var adminId = _authRepository.AddRole(Admin, Admin).Result;
+                        var userId = _authRepository.AddRole(GlobalConstants.User, GlobalConstants.User).Result;
+
                         _ = _authRepository.Register(new User()
                         {
                             Email = "admin@gmail.com",
@@ -34,7 +37,7 @@ public static class DbExtensions
                             FirstName = "Admin",
                             LastName = "User",
                             ProfileUrl = "https://wallpaperheart.com/wp-content/uploads/2018/07/cute-baby.jpg",
-                            Role = Admin,
+                            RoleId = adminId,
                         }, "admin@537").Result;
 
                         _ = _authRepository.Register(new User()
@@ -43,7 +46,7 @@ public static class DbExtensions
                             Username = "user",
                             FirstName = "user",
                             ProfileUrl = "https://wallpaperheart.com/wp-content/uploads/2018/07/cute-baby.jpg",
-                            Role = GlobalConstants.User,
+                            RoleId = userId,
                         }, "user@123").Result;
 
                     }

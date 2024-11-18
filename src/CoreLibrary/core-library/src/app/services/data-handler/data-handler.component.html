@@ -5,12 +5,12 @@
             <div class="my-2 row">
                 <div class="form-group col-6">
                     <label for="type">Data Type</label>
-                <select class="form-select" aria-label="Default select example" id="type" required name="type"
-                    formControlName="type">
-                    <option selected>Open this select menu</option>
-                    <option value="1">JSON</option>
-                    <option value="2">HTML</option>
-                </select>
+                    <select class="form-select" aria-label="Default select example" id="type" required name="type"
+                        formControlName="type">
+                        <option selected>Open this select menu</option>
+                        <option value="1">JSON</option>
+                        <option value="2">HTML</option>
+                    </select>
                 </div>
 
                 <div class="form-group col-6" *ngIf="getControlValue('type')==2">
@@ -21,10 +21,10 @@
                         <option value="1">Fetch Images</option>
                     </select>
                 </div>
-                
+
             </div>
 
-          
+
 
             <div class="form-group my-2">
                 <div class="input-group">
@@ -44,12 +44,21 @@
                 </div>
             </div>
 
-            <div class="form-check  my-2">
-                <input class="form-check-input" type="checkbox" formControlName="showCards" id="showCards">
-                <label class="form-check-label" for="showCards">
-                    Show Cards
-                </label>
+            <div class="my-2 d-flex justify-content-evenly">
+                <div class="form-check  my-2">
+                    <input class="form-check-input" type="checkbox" formControlName="showCards" id="showCards">
+                    <label class="form-check-label" for="showCards">
+                        Show Cards
+                    </label>
+                </div>
+                <div class="form-check  my-2">
+                    <input class="form-check-input" type="checkbox" formControlName="populateTable" id="populateTable">
+                    <label class="form-check-label" for="populateTable">
+                        Populate Table
+                    </label>
+                </div>
             </div>
+
             <div class="form-group my-2">
                 <div class="form-floating">
                     <textarea class="form-control" placeholder="Enter Data" id="data" style="height: 100px" id="data"
@@ -59,7 +68,7 @@
             </div>
 
 
-            
+
         </div>
 
 
@@ -74,5 +83,10 @@
 </div>
 
 
+<btsp-table [tableTemplate]="tableTemplate">
+    <btsp-col *ngFor="let col of tableTemplate?.cols" [dataField]="col.dataField" [caption]="col.caption||col.dataField"
+        headerClass="text-secondary opacity-25" dataClass="glassom"></btsp-col>
+
+</btsp-table>
 
 <btsp-card-container [dataSource]="dataSource" [showDownloadAll]="true"></btsp-card-container>

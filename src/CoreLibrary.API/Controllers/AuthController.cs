@@ -49,7 +49,7 @@ public class AuthController : ControllerBase
         {
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
                 new Claim(ClaimTypes.Name,userForLoginDto.Username),
-                new Claim(ClaimTypes.Role,userFromRepo.Role),
+                new Claim(ClaimTypes.Role,userFromRepo.Role.Code),
             };
         var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSetting:Token").Value));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);

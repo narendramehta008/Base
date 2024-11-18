@@ -11,6 +11,7 @@ using CoreLibrary.API.Domain.Services;
 using CoreLibrary.API.Strategy;
 using CoreLibrary.API.Services.Mappings;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using System.Text.Json.Serialization;
 
 namespace CoreLibrary.API.Extensions;
 
@@ -21,7 +22,7 @@ public static class StartupExtension
     public static IServiceCollection ConfigureServices(this IServiceCollection services)
     {
         services.AddHttpClient();
-        services.AddControllers();
+        services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
         services.ConfigureSwaggerServices(true);
         services.AddScoped(typeof(IDbRepository<>), typeof(DbRepository<>));
         services.AddScoped(typeof(IAuthRepository<>), typeof(AuthRepository<>));

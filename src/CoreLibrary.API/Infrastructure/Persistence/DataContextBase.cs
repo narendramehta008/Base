@@ -12,6 +12,6 @@ public class DataContextBase<TRepo> : DbContext where TRepo : DbContext
     {
     }
 
-    public DbSet<User> Users { get; set; }
+    //public DbSet<User> Users { get; set; }
 }
 

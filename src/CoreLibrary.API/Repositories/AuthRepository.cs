@@ -14,7 +14,7 @@ public class AuthRepository<TDbContext> : IAuthRepository<TDbContext> where TDbC
 
     public async Task<User?> Login(string username, string password)
     {
-        var user = await _dataContext.FirstOrDefaultAsync<User>(a => a.Username == username);
+        var user = _dataContext.Where<User>(a => a.Username == username).Include(a => a.Role).FirstOrDefault();
         if (user == null)
             return null;
 
@@ -57,5 +57,16 @@ public class AuthRepository<TDbContext> : IAuthRepository<TDbContext> where TDbC
     {
         var res = _dataContext.Where<User>(a => a.Username == username);
         return await res.AnyAsync();
+    }
+
+    public async Task<int> AddRole(string role, string description)
+    {
+        var res = _dataContext.Where<Role>(a => a.Code == role);
+        if (res.Count() > 0)
+            return res.First().Id;
+
+        var roles = new Role() { Code = role, Description = description };
+        await _dataContext.AddSaveAsync(roles);
+        return roles.Id;
     }
 }

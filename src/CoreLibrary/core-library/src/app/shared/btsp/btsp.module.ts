@@ -11,6 +11,7 @@ import { SharedModule } from '../shared.module';
 import { FileSaverModule } from 'ngx-filesaver';
 import { CardGroupComponent } from './card-group/card-group.component';
 import { SummaryComponent } from './summary/summary.component';
+import { ColComponent, TableComponent } from './table/table.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,8 @@ import { SummaryComponent } from './summary/summary.component';
     CardContainerComponent,
     CardGroupComponent,
     SummaryComponent,
+    TableComponent,
+    ColComponent,
   ],
   imports: [CommonModule, RouterModule, SharedModule, FileSaverModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -30,6 +33,8 @@ import { SummaryComponent } from './summary/summary.component';
     CardContainerComponent,
     CardGroupComponent,
     SummaryComponent,
+    TableComponent,
+    ColComponent,
   ],
 })
 export class BtspModule {}

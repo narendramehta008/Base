@@ -14,4 +14,11 @@ public class DataContext : DataContextBase<DataContext>
     }
 
     public DbSet<UserDetails> UserDetails { get; set; }
+    public virtual DbSet<Query> Queries { get; set; }
+
+    public virtual DbSet<Response> Responses { get; set; }
+
+    public virtual DbSet<Url> Urls { get; set; }
+
+
 }

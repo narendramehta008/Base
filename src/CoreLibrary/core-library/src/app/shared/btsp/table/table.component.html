@@ -1,0 +1,26 @@
+<div class="table-responsive">
+    <table *ngIf="tableTemplate" class="table table-hover table-striped">
+        <!-- <caption>List of data</caption> -->
+        <thead>
+            <tr>
+                <th *ngFor="let col of tableTemplate.cols" scope="col" [ngClass]="col.headerClass">{{col.caption}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of tableTemplate.dataSource; index as i">
+                <!-- <th scope="row">1</th> -->
+
+                <td *ngFor="let col of tableTemplate.cols" [ngClass]="col.dataClass">
+                    <ng-container
+                        *ngTemplateOutlet="col.customItem ?col.customItem: dataTemplate; context: {item:data, col:col}">
+                    </ng-container>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<ng-template #dataTemplate let-data="item" let-col="col">
+    {{data[col.dataField]}}
+</ng-template>

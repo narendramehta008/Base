@@ -16,23 +16,22 @@ SET client_encoding = 'UTF8';
 --
 -- Roles
 --
-SELECT 'CREATE ROLE user_owner WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD ''user_owner''' WHERE NOT EXISTS (select * from pg_roles WHERE rolname = 'user_owner')\gexec
-SELECT 'CREATE ROLE user_viewer WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD ''user_viewer''' WHERE NOT EXISTS (select * from pg_roles WHERE rolname = 'user_viewer')\gexec
-SELECT 'CREATE ROLE user_writer WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD ''user_writer''' WHERE NOT EXISTS (select * from pg_roles WHERE rolname = 'user_writer')\gexec
+SELECT 'CREATE ROLE corelib_viewer WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD ''corelib_viewer''' WHERE NOT EXISTS (select * from pg_roles WHERE rolname = 'corelib_viewer')\gexec
+SELECT 'CREATE ROLE corelib_writer WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD ''corelib_writer''' WHERE NOT EXISTS (select * from pg_roles WHERE rolname = 'corelib_writer')\gexec
+SELECT 'CREATE ROLE corelib_owner WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD ''corelib_owner''' WHERE NOT EXISTS (select * from pg_roles WHERE rolname = 'corelib_owner')\gexec
 
 \echo 'ROLE SCRIPT ENDS'
 
-\connect template1
 
 --
--- Name: user; Type: DATABASE; Schema: -; Owner: user_owner
+-- Name: user; Type: DATABASE; Schema: -; Owner: corelib_owner
 --
 
-SELECT 'CREATE DATABASE "user"  WITH ENCODING = UTF8 LOCALE = ''en_US.UTF-8'' TEMPLATE = template0' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'user')\gexec
+SELECT 'CREATE DATABASE "coreLib"  WITH ENCODING = UTF8 LOCALE = ''en_US.UTF-8'' TEMPLATE = template0' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'coreLib')\gexec
 
-ALTER DATABASE "user" OWNER TO user_owner;
+ALTER DATABASE "coreLib" OWNER TO corelib_owner;
 
-\connect "user"
+\connect "coreLib"
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -45,11 +44,11 @@ SET xmloption = content;
 SET client_min_messages = notice;
 SET row_security = off;
 
-CREATE SCHEMA IF NOT EXISTS login AUTHORIZATION postgres;
+CREATE SCHEMA IF NOT EXISTS corelib;
 
-ALTER SCHEMA login OWNER TO user_owner;
+ALTER SCHEMA corelib OWNER TO corelib_owner;
 
---ALTER TABLE IF EXISTS login."user" DROP CONSTRAINT IF EXISTS "userId_fk";
+--ALTER TABLE IF EXISTS corelib."coreLib" DROP CONSTRAINT IF EXISTS "userId_fk";
 
 
 SET default_tablespace = '';
@@ -60,7 +59,7 @@ SET default_table_access_method = heap;
  DO
 $do$
 BEGIN
-    CREATE TABLE IF NOT EXISTS login."versionControl"
+    CREATE TABLE IF NOT EXISTS corelib."versionControl"
     (
         id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
         "majorVersion" text COLLATE pg_catalog."default" NOT NULL,
@@ -71,24 +70,24 @@ BEGIN
         "dateModified" timestamp with time zone,
         "userCreated" text DEFAULT CURRENT_USER,
         "userModified" text COLLATE pg_catalog."default" NOT NULL,
-        CONSTRAINT "loginDbversion_pkey" PRIMARY KEY (id)
+        CONSTRAINT "coreLibDbversion_pkey" PRIMARY KEY (id)
     );
-    COMMENT ON TABLE login."versionControl"
+    COMMENT ON TABLE corelib."versionControl"
         IS 'Created by Dev for storing the db version.';
-    ALTER TABLE IF EXISTS login."versionControl" OWNER TO user_owner;
+    ALTER TABLE IF EXISTS corelib."versionControl" OWNER TO corelib_owner;
 END
 $do$;
 
 DO
 $$
 BEGIN
-    IF EXISTS(select 1 FROM login."versionControl" where "majorVersion"='1' and "minorVersion"='0' and "patch"='0' and "build"='0' LIMIT 1)
+    IF EXISTS(select 1 FROM corelib."versionControl" where "majorVersion"='1' and "minorVersion"='0' and "patch"='0' and "build"='0' LIMIT 1)
         THEN
             RAISE NOTICE 'login 1.0.0.0 version already exists. Skipping.';
     ELSE
         BEGIN
 			
-        CREATE TABLE IF NOT EXISTS login.user
+        CREATE TABLE IF NOT EXISTS corelib.user
         (
 	        id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
 	        username text  NOT NULL,
@@ -100,9 +99,9 @@ BEGIN
 	         CONSTRAINT "user_pkey" PRIMARY KEY (id)
          );
  
-        ALTER TABLE IF EXISTS login.user OWNER TO user_owner;
+        ALTER TABLE IF EXISTS corelib.user OWNER TO corelib_owner;
 
-        CREATE TABLE IF NOT EXISTS login.role
+        CREATE TABLE IF NOT EXISTS corelib.role
         (
 	        id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
 	        code text  NOT NULL,
@@ -112,7 +111,47 @@ BEGIN
 	         CONSTRAINT "roles_pkey" PRIMARY KEY (id)
          );
  
-        ALTER TABLE IF EXISTS login.role OWNER TO user_owner;
+        ALTER TABLE IF EXISTS corelib.role OWNER TO corelib_owner;
+
+        CREATE TABLE IF NOT EXISTS corelib.url
+        (
+	        id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+	        data text  NOT NULL,
+	        payload json,
+	        description text  NOT NULL,      
+	        "dateCreated" timestamp without time zone DEFAULT (timezone('utc', now())),
+	        "dateModified" timestamp without time zone DEFAULT (timezone('utc', now())),
+	         CONSTRAINT "url_pkey" PRIMARY KEY (id)
+         );
+ 
+        ALTER TABLE IF EXISTS corelib.url OWNER TO corelib_owner;
+
+        CREATE TABLE IF NOT EXISTS corelib.query
+        (
+	        id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+            "urlId" integer,
+	        data text  NOT NULL,
+	        description text  NOT NULL,      
+	        "dateCreated" timestamp without time zone DEFAULT (timezone('utc', now())),
+	        "dateModified" timestamp without time zone DEFAULT (timezone('utc', now())),
+	         CONSTRAINT "query_pkey" PRIMARY KEY (id)
+         );
+ 
+        ALTER TABLE IF EXISTS corelib.query OWNER TO corelib_owner;
+
+          CREATE TABLE IF NOT EXISTS corelib.response
+        (
+	        id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+            "urlId" integer,
+	        data text  NOT NULL,
+	        description text  NOT NULL,
+            type text,
+	        "dateCreated" timestamp without time zone DEFAULT (timezone('utc', now())),
+	        "dateModified" timestamp without time zone DEFAULT (timezone('utc', now())),
+	         CONSTRAINT "response_pkey" PRIMARY KEY (id)
+         );
+ 
+        ALTER TABLE IF EXISTS corelib.response OWNER TO corelib_owner;
 			 
          --INSERT SCRIPTS           
           raise notice 'INSERT CHECK or REAL INSERT ON all TABLE';  
@@ -120,30 +159,46 @@ BEGIN
 
 --roles
 
-    IF EXISTS ( SELECT FROM pg_tables WHERE schemaname = 'login' AND tablename = 'roles' )
-        THEN
-        TRUNCATE TABLE ONLY login."user" RESTART IDENTITY;
+    --IF EXISTS ( SELECT FROM pg_tables WHERE schemaname = 'corelib' AND tablename = 'roles' )
+    --    THEN
+    --    TRUNCATE TABLE ONLY corelib.user RESTART IDENTITY;
  
-         INSERT INTO login.roles(code) VALUES ('admin'),('user');
+    --     INSERT INTO corelib.roles(code) VALUES ('admin'),('user');
                  
-        ELSE
-            raise notice 'Table login."operationStatus" does not exist';
-    END IF;
+    --    ELSE
+    --        raise notice 'Table corelib."roles" does not exist';
+    --END IF;
 
 
 
 -- -- re assigning foreign keys 
              
-        IF NOT EXISTS (select constraint_name from information_schema.table_constraints where table_schema = 'login' and table_name = 'user' and constraint_name = 'roleId_fk' and constraint_type = 'FOREIGN KEY')   
+        IF NOT EXISTS (select constraint_name from information_schema.table_constraints where table_schema = 'user' and table_name = 'user' and constraint_name = 'roleId_fk' and constraint_type = 'FOREIGN KEY')   
         THEN   
-            ALTER TABLE ONLY login.user  
-            ADD CONSTRAINT "roleId_fk" FOREIGN KEY ("roleId") REFERENCES login.role(id) ON UPDATE CASCADE;   
+            ALTER TABLE ONLY corelib.user  
+            ADD CONSTRAINT "roleId_fk" FOREIGN KEY ("roleId") REFERENCES corelib.role(id) ON UPDATE CASCADE;   
         ELSE   
             raise notice 'Foreign Key "roleId_fk" on user already exist';   
         END IF;
 
+         IF NOT EXISTS (select constraint_name from information_schema.table_constraints where table_schema = 'user' and table_name = 'query' and constraint_name = 'urlId_fk' and constraint_type = 'FOREIGN KEY')   
+        THEN   
+            ALTER TABLE ONLY corelib.query  
+            ADD CONSTRAINT "urlId_fk" FOREIGN KEY ("urlId") REFERENCES corelib.url(id) ON UPDATE CASCADE;   
+        ELSE   
+            raise notice 'Foreign Key "urlId_fk" on user already exist';   
+        END IF;
+
+        IF NOT EXISTS (select constraint_name from information_schema.table_constraints where table_schema = 'user' and table_name = 'response' and constraint_name = 'responseUrlId_fk' and constraint_type = 'FOREIGN KEY')   
+        THEN   
+            ALTER TABLE ONLY corelib.response  
+            ADD CONSTRAINT "responseUrlId_fk" FOREIGN KEY ("urlId") REFERENCES corelib.url(id) ON UPDATE CASCADE;   
+        ELSE   
+            raise notice 'Foreign Key "responseUrlId_fk" on user already exist';   
+        END IF;
+
                -- insert version 
-            INSERT INTO login."versionControl"("majorVersion", "minorVersion", "patch","build","createdDate","dateModified","userModified") VALUES ('1', '0','0','0',timeofday()::TIMESTAMP,timeofday()::TIMESTAMP,'');
+            INSERT INTO corelib."versionControl"("majorVersion", "minorVersion", "patch","build","createdDate","dateModified","userModified") VALUES ('1', '0','0','0',timeofday()::TIMESTAMP,timeofday()::TIMESTAMP,'');
 
      END;
     END IF;
@@ -151,26 +206,35 @@ BEGIN
 END;
 $$;
 
-GRANT TEMPORARY ON DATABASE "user" TO PUBLIC;
-GRANT CONNECT ON DATABASE "user" TO user_owner;
-GRANT CONNECT ON DATABASE "user" TO user_viewer;
-GRANT CONNECT ON DATABASE "user" TO user_writer;
+GRANT TEMPORARY ON DATABASE "coreLib" TO PUBLIC;
+GRANT CONNECT ON DATABASE "coreLib" TO corelib_owner;
+GRANT CONNECT ON DATABASE "coreLib" TO corelib_viewer;
+GRANT CONNECT ON DATABASE "coreLib" TO corelib_writer;
 
-GRANT USAGE ON SCHEMA login TO user_viewer;
-GRANT ALL ON SCHEMA login TO user_owner;
-GRANT ALL ON SCHEMA login TO user_writer;
+GRANT USAGE ON SCHEMA corelib TO corelib_viewer;
+GRANT ALL ON SCHEMA corelib TO corelib_owner;
+GRANT ALL ON SCHEMA corelib TO corelib_writer;
 
-GRANT ALL ON TABLE login.user TO user_owner;
-GRANT ALL ON TABLE login.role TO user_owner;
+GRANT ALL ON TABLE corelib.user TO corelib_owner;
+GRANT ALL ON TABLE corelib.role TO corelib_owner;
+GRANT ALL ON TABLE corelib.url TO corelib_owner;
+GRANT ALL ON TABLE corelib.query TO corelib_owner;
+GRANT ALL ON TABLE corelib.response TO corelib_owner;
 
-GRANT SELECT ON TABLE login."versionControl" TO user_viewer;
-GRANT SELECT ON TABLE login.user TO user_viewer;
-GRANT SELECT ON TABLE login.role TO user_viewer;
+GRANT SELECT ON TABLE corelib."versionControl" TO corelib_viewer;
+GRANT SELECT ON TABLE corelib.user TO corelib_viewer;
+GRANT SELECT ON TABLE corelib.role TO corelib_viewer;
+GRANT SELECT ON TABLE corelib.url TO corelib_viewer;
+GRANT SELECT ON TABLE corelib.query TO corelib_viewer;
+GRANT SELECT ON TABLE corelib.response TO corelib_viewer;
 
-GRANT SELECT,INSERT,UPDATE ON TABLE login."versionControl" TO user_writer;
-GRANT SELECT,INSERT,UPDATE ON TABLE login.user TO user_writer;
-GRANT SELECT,INSERT,UPDATE ON TABLE login.role TO user_writer;
+GRANT SELECT,INSERT,UPDATE ON TABLE corelib."versionControl" TO corelib_writer;
+GRANT SELECT,INSERT,UPDATE ON TABLE corelib.user TO corelib_writer;
+GRANT SELECT,INSERT,UPDATE ON TABLE corelib.role TO corelib_writer;
+GRANT SELECT,INSERT,UPDATE ON TABLE corelib.url TO corelib_writer;
+GRANT SELECT,INSERT,UPDATE ON TABLE corelib.query TO corelib_writer;
+GRANT SELECT,INSERT,UPDATE ON TABLE corelib.response TO corelib_writer;
 
-REVOKE CONNECT,TEMPORARY ON DATABASE "user" FROM PUBLIC;
+REVOKE CONNECT,TEMPORARY ON DATABASE "coreLib" FROM PUBLIC;
 
 \echo 'SCRIPT COMPLETE FOR user DB'

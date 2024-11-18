@@ -78,7 +78,7 @@ export class UtilsService {
     return filename;
   }
 
-  private getFileNameFromUrl(url: string) {
+  getFileNameFromUrl(url: string) {
     let reg = new RegExp('\\S+/');
     return url.replace(reg, '');
   }
