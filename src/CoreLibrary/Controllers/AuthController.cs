@@ -1,4 +1,4 @@
-﻿using CoreLibrary.Domain.Interfaces;
+﻿using CoreLibrary.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

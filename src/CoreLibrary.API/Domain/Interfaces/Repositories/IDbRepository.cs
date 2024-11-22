@@ -26,4 +26,5 @@ public interface IDbRepository<TDbContext> where TDbContext : class
     Task<int> UpdateSaveAsync<TEntity>(TEntity entity) where TEntity : class;
 
     Task<TEntity?> FirstOrDefaultAsync<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class;
+    object? Find(Type type, params object?[]? keyValues);
 }

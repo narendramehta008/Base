@@ -2,7 +2,7 @@
 using CoreLibrary.API.Domain.Constants;
 using CoreLibrary.API.Domain.Interfaces.Repositories;
 using CoreLibrary.API.Domain.Models;
-using CoreLibrary.Domain.Interfaces;
+using CoreLibrary.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 

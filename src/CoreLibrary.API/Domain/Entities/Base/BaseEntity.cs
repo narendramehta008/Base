@@ -11,3 +11,19 @@ public abstract class BaseEntity
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public virtual int Id { get; set; }
 }
+
+[ExcludeFromCodeCoverage]
+public abstract class BaseEntityDate : BaseEntity
+{
+    public void UpdateDateModified() => DateModified = DateTime.Now;
+    public DateTime? DateCreated { get; private set; } = DateTime.UtcNow;
+
+    public DateTime? DateModified { get; private set; } = DateTime.UtcNow;
+}
+
+[ExcludeFromCodeCoverage]
+public abstract class BaseEntityData : BaseEntityDate
+{
+    public string Data { get; set; } = null!;
+    public string? Description { get; set; }
+}

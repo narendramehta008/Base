@@ -63,6 +63,8 @@ public class AuthController : ControllerBase
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
 
+        userFromRepo.PasswordHash = userFromRepo.PasswordSalt = null;
+
         return Ok(new
         {
             token = tokenHandler.WriteToken(token),

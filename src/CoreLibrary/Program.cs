@@ -2,9 +2,9 @@ using CoreLibrary.API.Extensions;
 using CoreLibrary.Infrastructure.Persistence;
 using System.Diagnostics.CodeAnalysis;
 using CoreLibrary.Infrastructure.Repositories;
-using CoreLibrary.Domain.Interfaces;
 using Serilog;
 using CoreLibrary.API.Domain.Utilities;
+using CoreLibrary.Application.Interfaces;
 
 [ExcludeFromCodeCoverage]
 public class Program

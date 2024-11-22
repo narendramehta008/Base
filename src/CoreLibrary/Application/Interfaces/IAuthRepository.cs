@@ -1,7 +1,7 @@
 ﻿using CoreLibrary.API.Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoreLibrary.Domain.Interfaces;
+namespace CoreLibrary.Application.Interfaces;
 
 public interface IAuthRepository : IAuthRepository<DbContext>
 {

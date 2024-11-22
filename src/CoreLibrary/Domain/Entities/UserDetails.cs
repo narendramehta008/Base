@@ -1,6 +1,6 @@
 ﻿using CoreLibrary.API.Domain.Entities;
 
-namespace CoreLibrary.Infrastructure.Entities;
+namespace CoreLibrary.Domain.Entities;
 
 public class UserDetails
 {

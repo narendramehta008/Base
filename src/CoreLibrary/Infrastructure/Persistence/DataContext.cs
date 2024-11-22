@@ -1,5 +1,5 @@
 ﻿using CoreLibrary.API.Infrastructure.Persistence;
-using CoreLibrary.Infrastructure.Entities;
+using CoreLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 

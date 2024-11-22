@@ -1,6 +1,6 @@
 ﻿using CoreLibrary.API.Domain.Interfaces.Repositories;
 using CoreLibrary.API.Repositories;
-using CoreLibrary.Domain.Interfaces;
+using CoreLibrary.Application.Interfaces;
 using CoreLibrary.Infrastructure.Persistence;
 
 namespace CoreLibrary.Infrastructure.Repositories;

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CoreLibrary.API.Domain.Entities;
 
-public class User : BaseEntity
+public class User : BaseEntityDate
 {
     [EmailAddress(ErrorMessage = "Invalid Email")]
     public string Email { get; set; }
@@ -20,10 +20,6 @@ public class User : BaseEntity
     public byte[] PasswordSalt { get; set; }
 
     public int RoleId { get; set; }
-
-    public DateTime? DateCreated { get; set; }
-
-    public DateTime? DateModified { get; set; }
 
     public virtual Role Role { get; set; } = null!;
 }
