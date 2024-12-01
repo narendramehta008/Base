@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 
 @Component({
@@ -12,10 +12,10 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
 })
 export class NavMenuComponent implements OnInit{
  
-  constructor(private authService: AuthenticationService, private router: Router) {}
+  constructor(protected authService: AuthenticationService, private router: Router) {}
 
   ngOnInit() {
-    // this.router.ac
+    this.authService.tokenDetails?.userData
   }
 
   signOut() {

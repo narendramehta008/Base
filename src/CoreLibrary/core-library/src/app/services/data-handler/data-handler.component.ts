@@ -9,7 +9,6 @@ import { UtilsService } from '@app/shared/services/utils.service';
 import { environment } from '@environments/environment.development';
 import { search } from '@metrichor/jmespath';
 
-import XPathParser from '@remotemerge/xpath-parser';
 
 @Component({
   selector: 'app-data-handler',
@@ -141,9 +140,11 @@ export class DataHandlerComponent implements OnInit {
       );
     }
     else{
-      const xmlParser = new XPathParser(data);
-      // {"root": "//img[contains(@class, 'card-img-top')]"}
-      const results: any = xmlParser.subQuery(this.getControlValue('query'));
+      const parser = new DOMParser();
+      const htmlDoc = parser.parseFromString(data,
+        'text/html'
+      );
+      let results = htmlDoc.querySelector(this.getControlValue('query'));
       console.log(results);
       if (results) {
         this.results.push(
