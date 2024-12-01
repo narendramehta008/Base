@@ -25,6 +25,8 @@ export interface IRequestParams {
 }
 
 export interface Summary {
+  id?: number;
+  parentId?: number;
   header: string;
   subHeader?: string;
   lines?: string[];

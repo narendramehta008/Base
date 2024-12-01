@@ -36,7 +36,8 @@ public class Program
                 var summary = new Summary()
                 {
                     Header = "Learning",
-                    SubHeader = "Learning Summaries"
+                    SummaryHeader = "Learning Summaries",
+
                 };
                 summary.Summaries = summary.FetchDatas() ?? [];
                 repo.NestedInAddSave(summary, (item) => item.Summaries);

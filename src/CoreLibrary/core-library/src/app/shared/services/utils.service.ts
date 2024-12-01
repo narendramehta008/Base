@@ -1,8 +1,9 @@
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Routes, Router, Route } from '@angular/router';
 import { FileSaverService } from 'ngx-filesaver';
 import { Observable, catchError, map, of } from 'rxjs';
+import * as _ from "lodash"
 
 export interface IRoutes {
   parent: Route;
@@ -53,7 +54,7 @@ export class UtilsService {
         })
       );
   }
-  getRequest(url: string, params?:any) {
+  getRequest(url: string, params?: any) {
     return this.httpClient.get(url, { params: params }).pipe(
       map((res) => res),
       map((body) => body),
@@ -82,4 +83,19 @@ export class UtilsService {
     let reg = new RegExp('\\S+/');
     return url.replace(reg, '');
   }
+
+
+  makeSummaryTree(nodes: any[], parentId: any): any {
+    return nodes
+      .filter((node) => node.parentId === parentId)
+      .reduce(
+        (tree, node) => [
+          ...tree,
+          {
+            ...node,
+            summaries:this.makeSummaryTree(nodes, node.id)
+          }
+        ],
+        []
+      ); }
 }

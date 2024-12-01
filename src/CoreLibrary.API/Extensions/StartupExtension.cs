@@ -22,7 +22,7 @@ public static class StartupExtension
     public static IServiceCollection ConfigureServices(this IServiceCollection services)
     {
         services.AddHttpClient();
-        services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+        services.AddControllers();//.AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
         services.ConfigureSwaggerServices(true);
         services.AddScoped(typeof(IDbRepository<>), typeof(DbRepository<>));
         services.AddScoped(typeof(IAuthRepository<>), typeof(AuthRepository<>));
