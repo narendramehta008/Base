@@ -2,7 +2,6 @@
 using CoreLibrary.API.Domain.Services.Repositories;
 using CoreLibrary.Application.Interfaces;
 using CoreLibrary.Application.Models;
-using CoreLibrary.Domain.Entities;
 using CoreLibrary.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +11,6 @@ public class DbRepository : DbRepository<DataContext>, IDbRepository
 {
     public DbRepository(DataContext dbContext) : base(dbContext)
     {
-        //dbContext.Find(typeof(DataContext), 1);
     }
 
     public async Task<IEnumerable<T>> GetAll<T>(GetRequest<T>? request) where T : class
@@ -32,4 +30,47 @@ public class DbRepository : DbRepository<DataContext>, IDbRepository
         return await query.ToArrayAsync();
     }
 
+    public int NestedAddRangeSave<TEntity, TNEntity>(IEnumerable<TEntity> entities, Func<TEntity, IEnumerable<TNEntity>> predicate)
+        where TEntity : BaseEntity
+        where TNEntity : BaseParentEntity
+    {
+        int status = 0;
+        foreach (var entity in entities)
+            status = NestedAddSave(entity, predicate);
+        return status;
+    }
+
+    public int NestedAddSave<TEntity, TNEntity>(TEntity entity, Func<TEntity, IEnumerable<TNEntity>> predicate) where TEntity : BaseEntity where TNEntity : BaseParentEntity
+    {
+        var status = 0;
+        if (entity.Id == 0)
+            AddSave(entity);
+        foreach (var item in predicate(entity))
+        {
+            item.ParentId = entity.Id;
+            AddSave(item);
+        }
+        return status;
+    }
+
+    public int NestedInAddRangeSave<TEntity>(IEnumerable<TEntity> entities, Func<TEntity, IEnumerable<TEntity>> predicate) where TEntity : BaseParentEntity
+    {
+        int status = 0;
+        foreach (var entity in entities)
+            status = NestedInAddSave(entity, predicate);
+        return status;
+    }
+
+    public int NestedInAddSave<TEntity>(TEntity entity, Func<TEntity, IEnumerable<TEntity>> predicate) where TEntity : BaseParentEntity
+    {
+        var status = 0;
+        if (entity.Id == 0)
+            AddSave(entity);
+        foreach (var item in predicate(entity))
+        {
+            item.ParentId = entity.Id;
+            NestedInAddSave(item, predicate);
+        }
+        return status;
+    }
 }

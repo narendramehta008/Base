@@ -30,7 +30,7 @@ export interface Summary {
   lines?: string[];
   codes?: string[];
   summaryHeader?: string;
-  summarys?: Summary[];
+  summaries?: Summary[];
   templates?: TemplateRef<ElementRef>[];
 }
 

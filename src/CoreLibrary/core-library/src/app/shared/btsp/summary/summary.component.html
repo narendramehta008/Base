@@ -20,9 +20,9 @@
             </code>
         </pre>
 
-        <ol *ngIf="summary.summaryHeader && summary.summarys">
+        <ol *ngIf="summary.summaryHeader && summary.summaries">
             <p class="fw-bold fs-5 ">{{summary.summaryHeader}}</p>
-            <ul *ngFor="let nestedSummary of summary.summarys">
+            <ul *ngFor="let nestedSummary of summary.summaries">
                 <ng-template [ngTemplateOutlet]="summaryTemplate" [ngTemplateOutletContext]="{ summary:nestedSummary }">
                 </ng-template>
             </ul>

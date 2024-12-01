@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Summary } from '@app/core/models/Funcs';
+import { UtilsService } from '@app/shared/services/utils.service';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-learning',
@@ -7,10 +9,25 @@ import { Summary } from '@app/core/models/Funcs';
   styleUrl: './learning.component.scss',
 })
 export class LearningComponent implements OnInit {
+  constructor(private utils: UtilsService) {
+
+  }
   expanded = false;
   summarys: Summary[] = [];
 
   ngOnInit(): void {
+
+
+    this.utils.getRequest(environment.apiEndPoint.data.get, {
+      type: 'Summary'
+    }).subscribe({
+      next: (response: Summary[]) => {
+        console.log(response);
+      }, error: (error) => {
+        console.log(error);
+      }
+    });
+
     this.summarys = [
       {
         header: 'Data Structures',
@@ -314,7 +331,7 @@ export class LearningComponent implements OnInit {
          </ol>`,
         ],
         summaryHeader: 'Applications',
-        summarys: [
+        summaries: [
           {
             header: 'Tries',
             lines: [
@@ -325,5 +342,7 @@ export class LearningComponent implements OnInit {
         ],
       },
     ];
+
   }
+
 }

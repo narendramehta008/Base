@@ -19,6 +19,6 @@ public class DataContext : DataContextBase<DataContext>
     public virtual DbSet<Response> Responses { get; set; }
 
     public virtual DbSet<Url> Urls { get; set; }
-
+    public virtual DbSet<Summary> Summaries { get; set; }
 
 }

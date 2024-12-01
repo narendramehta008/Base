@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Routes, Router, Route } from '@angular/router';
 import { FileSaverService } from 'ngx-filesaver';
@@ -17,7 +17,7 @@ export class UtilsService {
     private router: Router,
     private httpClient: HttpClient,
     private fileSaver: FileSaverService
-  ) {}
+  ) { }
 
   routes: Routes = [];
   downloadWithResponseFileName(
@@ -53,8 +53,8 @@ export class UtilsService {
         })
       );
   }
-  getRequest(url: string, params?: any) {
-    return this.httpClient.get(url, params).pipe(
+  getRequest(url: string, params?:any) {
+    return this.httpClient.get(url, { params: params }).pipe(
       map((res) => res),
       map((body) => body),
       catchError((body) => of(body))

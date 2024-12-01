@@ -15,6 +15,12 @@ export const environment = {
         get: 'apiManager/Get',
         post: 'apiManager/POst',
       },
+      data:{
+        getByTypeId:'Data/{0}?type={1}',
+        getByType:'Data?type={0}',
+        getAll:'Data/GetAll',
+        get:'Data'
+      }
     },
     production: true,
   };

@@ -60,4 +60,10 @@ public static class DataExtensions
         }
         return false;
     }
+
+    public static T? FetchData<T>(this string section)
+        => JObject.Parse(File.ReadAllText(SeedDataPath.Format(section))).SelectTokenValue<T>(section);
+    public static ICollection<T>? FetchDatas<T>(this T item) where T : class, new()
+       => FetchData<ICollection<T>>(typeof(T).Name);
+
 }

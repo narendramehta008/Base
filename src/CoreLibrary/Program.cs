@@ -5,6 +5,8 @@ using CoreLibrary.Infrastructure.Repositories;
 using Serilog;
 using CoreLibrary.API.Domain.Utilities;
 using CoreLibrary.Application.Interfaces;
+using CoreLibrary.API.Domain.Extensions;
+using CoreLibrary.Domain.Entities;
 
 [ExcludeFromCodeCoverage]
 public class Program
@@ -28,7 +30,17 @@ public class Program
             builder.Services.AddScoped<ICacheRepository, CacheRepository>();
 
             var app = builder.Build();
-            app.InitialiseDataContext<DataContext>();
+            app.InitialiseDataContext<DataContext>((providor) =>
+            {
+                var repo = providor.GetRequiredService<IDbRepository>();
+                var summary = new Summary()
+                {
+                    Header = "Learning",
+                    SubHeader = "Learning Summaries"
+                };
+                summary.Summaries = summary.FetchDatas() ?? [];
+                repo.NestedInAddSave(summary, (item) => item.Summaries);
+            });
             app.Configure(app.Services.GetService<IWebHostEnvironment>()!);
             app.Run();
         }

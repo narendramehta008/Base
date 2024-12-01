@@ -1,10 +1,12 @@
 ﻿using CoreLibrary.API.Domain.Entities.Base;
 using CoreLibrary.Application.Interfaces;
 using CoreLibrary.Application.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoreLibrary.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class CrudBaseController<T> : ControllerBase, IApiController<T> where T : BaseEntity
 {
     protected readonly IDbRepository _dbRepository;

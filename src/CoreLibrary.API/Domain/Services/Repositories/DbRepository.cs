@@ -1,11 +1,7 @@
-﻿using CoreLibrary.API.Domain.Entities.Base;
-using CoreLibrary.API.Domain.Interfaces.Repositories;
-using IdentityModel;
+﻿using CoreLibrary.API.Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace CoreLibrary.API.Domain.Services.Repositories;
 
@@ -18,10 +14,7 @@ public class DbRepository<TDbContext> : IDbRepository<TDbContext> where TDbConte
         _dbContext = dbContext;
     }
 
-    //public static DbSet<T> GetDbSet<T>(this DbContext _context) where T : class => 
-    //    (DbSet<T>)_context.GetType().GetMethod("Set", types: Type.EmptyTypes).MakeGenericMethod(typeof(T)).Invoke(_context, null);
-
-    private IQueryable<object> Set(Type t)
+    public IQueryable<object> Find(Type t)
     {
         var entityType = _dbContext.Model.FindEntityType(t);
         var data = _dbContext.GetType().GetMethods().First(a => a.Name.Contains("get_") && a.ReturnTypeCustomAttributes.ToString().Trim(']').Split(".").Last() == t.Name)
@@ -31,7 +24,7 @@ public class DbRepository<TDbContext> : IDbRepository<TDbContext> where TDbConte
 
     public object? Find(Type type, params object?[]? keyValues)
     {
-        if (keyValues == null || keyValues.Length == 0) return Set(type);
+        if (keyValues == null || keyValues.Length == 0) return Find(type);
         return _dbContext.Find(type, keyValues);
     }
     public int AddRangeSave<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
