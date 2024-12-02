@@ -2,12 +2,14 @@
 using CoreLibrary.API.Domain.Entities;
 using CoreLibrary.API.Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CoreLibrary.API.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class DbExtensions
 {
-    public static IHost InitialiseDataContext<TDataContext>(this IHost webHost) where TDataContext : DbContext
+    public static IHost InitialiseDataContext<TDataContext>(this IHost webHost, Action<IServiceProvider>? postMigrateSeedAction = null) where TDataContext : DbContext
     {
         using (var scope = webHost.Services.CreateScope())
         {
@@ -25,12 +27,16 @@ public static class DbExtensions
                     context.Database.EnsureCreated();
                     context.Database.Migrate();
 
+
                     if (!_authRepository.UserExists("admin").Result)
                     {
+                        postMigrateSeedAction?.Invoke(services);
+                        //roles
                         var adminId = _authRepository.AddRole(Admin, Admin).Result;
                         var userId = _authRepository.AddRole(GlobalConstants.User, GlobalConstants.User).Result;
 
-                        _ = _authRepository.Register(new User()
+                        //users
+                        var admin = new User()
                         {
                             Email = "admin@gmail.com",
                             Username = "admin",
@@ -38,16 +44,19 @@ public static class DbExtensions
                             LastName = "User",
                             ProfileUrl = "https://wallpaperheart.com/wp-content/uploads/2018/07/cute-baby.jpg",
                             RoleId = adminId,
-                        }, "admin@537").Result;
+                        };
 
-                        _ = _authRepository.Register(new User()
+                        var user = new User()
                         {
                             Email = "user@gmail.com",
                             Username = "user",
                             FirstName = "user",
                             ProfileUrl = "https://wallpaperheart.com/wp-content/uploads/2018/07/cute-baby.jpg",
                             RoleId = userId,
-                        }, "user@123").Result;
+                        };
+
+                        _ = _authRepository.Register(admin, "admin@537").Result;
+                        _ = _authRepository.Register(user, "user@123").Result;
 
                     }
                 }

@@ -1,4 +1,5 @@
 ﻿using CoreLibrary.API.Domain.Entities.Base;
+using CoreLibrary.API.Domain.Extensions;
 using CoreLibrary.Application.Interfaces;
 using CoreLibrary.Application.Models;
 using CoreLibrary.Domain.Entities;
@@ -34,12 +35,11 @@ public class DataController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("Get")]
-   
+    [HttpGet]
     public IActionResult Get([FromQuery] string type)
     {
         var result = _dbRepository.Find(GetEntityType(type));
-        return Ok(result);
+        return new JsonResult(result);
     }
 
     [HttpGet("{id}")]
@@ -89,9 +89,8 @@ public class DataController : ControllerBase
 
     private Type GetEntityType(string type)
     {
-        var ts = Assembly.GetExecutingAssembly().GetTypes();
-        //var baseEntity = (BaseEntity)Activator.CreateInstance(instance);
-        return Assembly.GetExecutingAssembly().GetTypes().First(a => a.BaseType?.Name == nameof(BaseEntityData) && a.Name == type);
+        var types = Assembly.GetExecutingAssembly().GetTypes().Where(a => a.Name == type);
+        return types.First(a => a.BaseType?.Name.ContainsAny(nameof(BaseEntityData), nameof(BaseParentEntity)) ?? false);
     }
 
 
@@ -114,6 +113,17 @@ public class QueryController : CrudBaseController<Query>
 {
 
     public QueryController(IDbRepository dbRepository) : base(dbRepository)
+    {
+    }
+
+}
+
+[Route("api/[controller]")]
+[ApiController]
+public class SummaryController : CrudBaseController<Summary>
+{
+
+    public SummaryController(IDbRepository dbRepository) : base(dbRepository)
     {
     }
 

@@ -25,12 +25,14 @@ export interface IRequestParams {
 }
 
 export interface Summary {
+  id?: number;
+  parentId?: number;
   header: string;
   subHeader?: string;
   lines?: string[];
   codes?: string[];
   summaryHeader?: string;
-  summarys?: Summary[];
+  summaries?: Summary[];
   templates?: TemplateRef<ElementRef>[];
 }
 

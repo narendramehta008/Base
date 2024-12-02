@@ -1,0 +1,135 @@
+{
+  "Summary": [
+    {
+      "header": "Data Structures",
+      "lines": [
+        "It is the systematic way to organized data so, that we can used it in efficiently.",
+        "like, we can store same type of data in a array, stack for redo, undo.",
+        "<ol>\n          <li>\n              <span> <b>Linear DS: </b> When elements are arranged in sequential order.</span>\n          </li>\n          <li>\n              <span> <b>Non-Linear DS: </b> When elements are not arranged in sequential order. like tree have two successor,\n              </span>\n          </li>\n      </ol>\n          ",
+        "<b>NOTE:</b> Array is static DS since we define fixed size of it."
+      ]
+    },
+    {
+      "header": "Algorithm",
+      "lines": [
+        "step by step process to solve any problem.",
+        "like, we can store same type of data in a array."
+      ]
+    },
+    {
+      "header": "Data types",
+      "lines": [
+        "types of variable we can define on basis of operations we want to perform",
+        "<b>Predefined</b> like byte(8), short(16), int(32), long(64), string, decimal,datetime, float and so on",
+        "<b>Dynamic Data Types (.NET)</b> avoid compile time.",
+        "<b>User Defined Data Types</b> defined by user like struct of weekdays.",
+        "<b>Abstract Data Types</b> It is kind of black box (i.e. interface) which hides inner structure and design from user. For eg. user know Push, pop in stack other than nothing like how implemented and working"
+      ]
+    },
+    {
+      "header": "Big O",
+      "lines": [
+        "It describes limiting behaviour of function, when it moving towards particular value or infinity.",
+        "A quantifier which measure how efficient is certain DS at different tasks.",
+        "like, we can store same type of data in a array.",
+        "<ol>We measure efficieny using 4 matrices\n          <li> <span> <b>Accessing</b> Lookup by index.</span>  </li>\n          <li> <span> <b>Searching </b> Lookup by value.</span>  </li>\n          <li> <span> <b>Deleting </b></span>  </li>\n          <li> <span> <b>Inserting </b></span>  </li>\n      </ol>\n          "
+      ]
+    },
+    {
+      "header": "Array",
+      "lines": [
+        "It is way of storing data of same type in contiguous memory locations.",
+        "It having fixed sized, <b>Lookup by Index(Accessing)</b> takes O(1) as we know it have index which makes faster to access, <b>Lookup by value(Searching)</b>  takes O(n)",
+        "<b>Inserting</b> takes O(n) if defined array is filled and redefining size and reallocate the items again\n          <b>Deleting</b> takes O(n) on worst case item at first then we have to shift items"
+      ]
+    },
+    {
+      "header": "Stack",
+      "lines": [
+        "It is a sequential DS in which we add or remove elements to LIFO principle, It have push, pop, peek, contains methods.",
+        "<b>Lookup</b>  O(n)  <b>Access</b>  takes O(n)",
+        "<b>Inserting</b> takes O(1) <b>Deleting</b> takes O(1)"
+      ],
+      "codes": [
+        "public class CustomStack<T>\n            {\n                private readonly T[] items;\n                private int top = -1;\n                private readonly int maxSize;\n                public CustomStack(int size)\n                {\n                    items = new T[size];\n                    maxSize = size;\n                }\n        \n                public void Push(T item)\n                {\n                    if (top == maxSize - 1) throw new ArgumentOutOfRangeException();\n                    items[++top] = item;\n                }\n                public T Pop()\n                {\n                    if (top == -1) throw new InvalidOperationException(\"Stack empty\");\n                    return items[top--];\n                }\n                public T Peek()\n                {\n                    if (top == -1) throw new InvalidOperationException(\"Stack empty\");\n                    return items[top];\n                }\n        \n            }\n          "
+      ]
+    },
+    {
+      "header": "Queue",
+      "lines": [
+        "It is a sequential DS which follows FIFO principle, It have head where we enqueue (enter) and tail where we dequeue(delete), peek, contains methods. .",
+        "<b>Lookup</b>  O(n)  <b>Access</b>  takes O(n)",
+        "<b>Inserting</b> takes O(1) <b>Deleting</b> takes O(1)"
+      ],
+      "codes": [
+        "public class CustomQueue<T>\n            {\n                private readonly T[] items;\n                private int front = 0;\n                private int rear = -1;\n                private int itemCount = 0;\n                private readonly int maxSize;\n                public CustomQueue(int size)\n                {\n                    items = new T[size];\n                    maxSize = size;\n                }\n                public T Peek()\n                {\n                    return items[rear];\n                }\n                public void Enqueue(T item)\n                {\n                    if (itemCount == maxSize) throw new ArgumentOutOfRangeException();\n                    if (rear == maxSize - 1) rear = -1;\n                    items[++rear] = item;\n                    ++itemCount;\n                }\n                public T Dequeue()\n                {\n                    if (rear == -1) throw new InvalidOperationException(\"Queue Empty.\");\n                    if (front == maxSize - 1) front = 0;\n                    --itemCount;\n                    return items[front++];\n                }\n          }"
+      ]
+    },
+    {
+      "header": "Linked List",
+      "lines": [
+        "List of objects, it have two piece of data one value and other holds address of next object therefore it referred as Linked List",
+        "<b>Accessing </b>  takes O(n) it have no index since they are not stroring in sequential",
+        "<b>Inserting at end </b> takes O(1) create a node and points last item to this new item, \n          <b>Inserting at beginning </b> takes O(1) create a node and head points this new item and its address points to previous first item,\n          <b>Inserting at middle </b> takes O(n) since here we have to traverse it",
+        "<b>Deleting at start </b> takes O(1) <b>Deleting at end, middle </b> takes O(n) we have to traverse and change address while garbage collector"
+      ],
+      "codes": [
+        "public class CustomLinkedList<T>\n            {\n        \n                private class Node\n                {\n                    public T Value;\n                    public Node NextNode;\n                    public Node(T value)\n                    {\n                        Value = value;\n                    }\n                }\n        \n                private Node First;\n                private Node Last;\n        \n                public void AddLast(T value)\n                {\n                    var node = new Node(value);\n                    if (First == null)\n                    {\n                        Last = First = node;\n                    }\n                    else\n                    {\n                        Last.NextNode = node;\n                        Last = node;\n                    }\n        \n                }\n                public void AddFirst(T value)\n                {\n                    var node = new Node(value);\n                    if (First == null)\n                    {\n                        Last = First = node;\n                    }\n                    else\n                    {\n                        node.NextNode = First;\n                        First = node;\n                    }\n        \n                }\n        \n                public int IndexOf(T value)\n                {\n                    int index = 0;\n                    var current = First;\n                    while (current.NextNode != null)\n                    {\n                        if (current.Value.Equals(value))\n                            return index;\n                        current = current.NextNode;\n                        ++index;\n                    }\n                    return -1;\n                }\n        \n                public bool Contains(T value)\n                {\n                    return IndexOf(value) != -1;\n                }\n        \n                public void RemoveLast()\n                {\n                    if (First == Last)\n                    {\n                        First = Last = null;\n                        return;\n                    }\n        \n                    var current = First;\n                    while (current.NextNode != null)\n                    {\n                        if (current.NextNode == Last)\n                        {\n                            current.NextNode = null;\n                            Last = current;\n                            break;\n                        }\n                    }\n                }\n                public void RemoveFirst()\n                {\n                    First = First.NextNode;\n                }\n              }"
+      ]
+    },
+    {
+      "header": "Dictionary",
+      "lines": [
+        "It is a Abstract DS also called Maps and Associative Arrays, which store data in form of key/value pairs.\n          Here, we use keys it may anything string, number etc. instead of numerical index, and key must have to unique.",
+        "<b>Lookup</b>  O(n)  <b>Access</b>  takes O(n)",
+        "<b>Inserting</b> takes O(n) <b>Deleting</b> takes O(n)"
+      ]
+    },
+    {
+      "header": "HashTable",
+      "lines": [
+        "It store data in associated manner, it stores data in array format where it have unique index value and data value.",
+        "Number by itself, multiple by number of digits - 1 i.e. (number/number)*(num of digits -1)\n          <a href=\"http://www.gpcet.ac.in/wp-content/uploads/2018/02/ds-FINAL-NOTES-59-88.pdf\">Refer Link</a>\n          <a href=\"https://youtu.be/YOfXMQnUlZY?t=7729\">Refer Link for Closed and Open hashing</a>"
+      ]
+    },
+    {
+      "header": "Hashing",
+      "lines": [
+        "It is technique to convert range/list of key values into range/list of indexes of an array",
+        "Eg. we have HashTable of size 20 we use modulus 20 to store it, as we know it may result same index then we do <b>Linear Probing</b> which assigns memory next to it."
+      ]
+    },
+    {
+      "header": "Trees",
+      "lines": [
+        "An ADS which contains series of linked nodes connected to form a hierachical representation. here Linked list pointing towards multiple locations",
+        "<ol>\n          <li> <span><b>Vertice</b> A certain Node in a Tree</span> </li>\n          <li> <span><b>Edge</b> A connection between Nodes</span> </li>\n          <li> <span><b>Root Node</b> Topmost Node of a Tree</span> </li>\n          <li> <span><b>Child Node</b> A certain Node which has an edge connecting it to another Node one level above itself</span> </li>\n          <li> <span><b>Parent Node</b> Any Node which has 1 or more child Nodes </span> </li>\n          <li> <span><b>Height</b> Number of edges on the longest possible path down towards leaf. </span> </li>\n          <li> <span><b>Depth</b> Number of edges required to get from particular node to root Node. </span> </li>\n         </ol> ",
+        "Eg. file Structure"
+      ]
+    },
+    {
+      "header": "Heap",
+      "lines": [
+        "It is a special type of tree where all child nodes are compare to their parent Node ",
+        "Min Heap : minimum value among all childrens, Max Heap : maximum value among all childrens, ",
+        "Applications: we using in sorting algorithm "
+      ]
+    },
+    {
+      "header": "Graph",
+      "lines": [
+        "A non linear DS consist of Nodes and Edges",
+        "<ol>\n          <li> <span><b>Vertice</b> Finite set of nodes</span> </li>\n          <li> <span><b>Edge</b> A connection between Nodes</span> </li>\n          <li> <span><b>Edge Set</b> Describes relationship between nodes</span> </li>\n          <li> <span><b>UnDirected</b> Here transverse direction is not important similarly vices versa is <b>Directed</b> </span> </li>\n         </ol>"
+      ],
+      "summaryHeader": "Applications",
+      "summaries": [
+        {
+          "header": "Tries",
+          "lines": [
+            "It is tree like structure whose nodes stores letter of alphabets in form of characters, \n                here we traversing and skips the tree where we don't find matching character"
+          ]
+        }
+      ]
+    }
+  ]
+}

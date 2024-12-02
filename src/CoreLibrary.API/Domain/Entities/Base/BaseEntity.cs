@@ -13,6 +13,12 @@ public abstract class BaseEntity
 }
 
 [ExcludeFromCodeCoverage]
+public abstract class BaseParentEntity : BaseEntity
+{
+    public virtual int? ParentId { get; set; }
+}
+
+[ExcludeFromCodeCoverage]
 public abstract class BaseEntityDate : BaseEntity
 {
     public void UpdateDateModified() => DateModified = DateTime.Now;

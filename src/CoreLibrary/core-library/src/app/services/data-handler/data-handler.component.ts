@@ -4,11 +4,11 @@ import { IKeyValue } from '@app/core/models/Funcs';
 import { ITableTemplate, TableTemplate } from '@app/core/models/TableTemplate';
 import {
   CardComponent,
-  ICardTemplate,
 } from '@app/shared/btsp/card/card.component';
 import { UtilsService } from '@app/shared/services/utils.service';
 import { environment } from '@environments/environment.development';
 import { search } from '@metrichor/jmespath';
+
 
 @Component({
   selector: 'app-data-handler',
@@ -35,12 +35,16 @@ export class DataHandlerComponent implements OnInit {
       id: 1,
       value: 'Fetch Images',
     },
+    {
+      id: 2,
+      value: 'Query',
+    },
   ];
   errorMessage = '';
   dataSource: CardComponent[] = [];
   tableTemplate: ITableTemplate = { dataSource: [] };
 
-  constructor(private utils: UtilsService, private cdr: ChangeDetectorRef) {}
+  constructor(private utils: UtilsService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.dataFormGroup.addControl(
@@ -59,7 +63,7 @@ export class DataHandlerComponent implements OnInit {
     this.dataFormGroup.addControl('populateTable', new FormControl(false));
     this.dataFormGroup.addControl(
       'predefinedOperations',
-      new FormControl(1, [Validators.pattern('^[1]*$')])
+      new FormControl(1, [Validators.pattern('^[1-2]*$')])
     );
   }
 
@@ -120,15 +124,41 @@ export class DataHandlerComponent implements OnInit {
       this.resultsString = this.results.join('\n');
     }
   }
+
   htmlOperations() {
-    const parser = new DOMParser();
-    const htmlDoc = parser.parseFromString(
-      this.getControlValue('data'),
-      'text/html'
-    );
-    this.results = Array.from(htmlDoc.getElementsByTagName('img')).map(
-      (a) => a.currentSrc || a.src
-    );
+    const data = this.getControlValue('data');
+    if (!data) return;
+
+    if(this.getControlValue('predefinedOperations')==1){
+      const parser = new DOMParser();
+      const htmlDoc = parser.parseFromString(data,
+        'text/html'
+      );
+  
+      this.results = Array.from(htmlDoc.getElementsByTagName('img')).map(
+        (a) => a.currentSrc || a.src
+      );
+    }
+    else{
+      const parser = new DOMParser();
+      const htmlDoc = parser.parseFromString(data,
+        'text/html'
+      );
+      let results = htmlDoc.querySelector(this.getControlValue('query'));
+      console.log(results);
+      if (results) {
+        this.results.push(
+          ...Array.from(results).map((a) =>
+            typeof a == 'string' ? a : JSON.stringify(a)
+          )
+        );
+        this.resultsString = this.results.join('\n');
+      }
+    }
+
+    
+   
+    
   }
 
   populateCards() {

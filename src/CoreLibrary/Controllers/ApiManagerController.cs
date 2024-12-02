@@ -18,6 +18,7 @@ public class ApiManagerController : ControllerBase
 
     public ApiManagerController(IDbRepository dbRepository, IRestApiRepository restApi, ILogger<ApiManagerController> logger)
     {
+
         _dbRepository = dbRepository;
         _restApi = restApi;
         _logger = logger;

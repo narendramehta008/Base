@@ -51,4 +51,10 @@
 	  <Folder Include="Domain\Attributes\TimeGuid\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="Data\Summary.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
 </Project>

@@ -1,6 +1,4 @@
-﻿
-
-using CoreLibrary.API.Domain.Entities;
+﻿using CoreLibrary.API.Domain.Entities;
 using CoreLibrary.API.Domain.Interfaces.Repositories;
 using CoreLibrary.API.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -11,8 +9,7 @@ using System.Security.Claims;
 
 namespace CoreLibrary.API.Controllers;
 
-
-public class AuthController : ControllerBase
+public abstract class AuthController : ControllerBase
 {
     protected readonly IAuthRepository<DbContext> _repo;
     protected readonly IConfiguration _configuration;
@@ -50,8 +47,8 @@ public class AuthController : ControllerBase
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
                 new Claim(ClaimTypes.Name,userForLoginDto.Username),
                 new Claim(ClaimTypes.Role,userFromRepo.Role.Code),
-            };
-        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSetting:Token").Value));
+        };
+        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSetting:Token").Value!));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
         var tokenDescriptor = new SecurityTokenDescriptor()
@@ -63,9 +60,7 @@ public class AuthController : ControllerBase
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
 
-        userFromRepo.PasswordHash = userFromRepo.PasswordSalt = null;
-
-        return Ok(new
+        return new JsonResult(new
         {
             token = tokenHandler.WriteToken(token),
             expires = new DateTimeOffset(tokenDescriptor.Expires.Value).ToUnixTimeMilliseconds(),

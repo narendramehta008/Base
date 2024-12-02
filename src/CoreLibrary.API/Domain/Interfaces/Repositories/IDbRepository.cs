@@ -27,4 +27,5 @@ public interface IDbRepository<TDbContext> where TDbContext : class
 
     Task<TEntity?> FirstOrDefaultAsync<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class;
     object? Find(Type type, params object?[]? keyValues);
+    IQueryable<object> Find(Type t);
 }

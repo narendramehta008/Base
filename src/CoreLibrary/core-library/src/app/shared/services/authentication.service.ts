@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { LoginModel } from '../models/authentication-models';
 import { catchError, map, of, throwError } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
+import { jwtDecode } from "jwt-decode";
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,12 @@ export class AuthenticationService {
       let storageToken = localStorage?.getItem(environment.tokenName);
       if (storageToken) {
         this.tokenDetails = JSON.parse(storageToken);
-        if (this.tokenDetails?.token && this.tokenDetails.expires > Date.now()) this.isLoggedIn = true;
+       
+        if(this.tokenDetails?.token && this.tokenDetails.expires > Date.now()){
+          this.isLoggedIn = true;
+          const decoded:any = jwtDecode(this.tokenDetails.token??'');
+          this.tokenDetails.isAdmin = decoded.role=='Admin';
+        }
         // else localStorage?.removeItem(environment.tokenName);
       }
     }
@@ -27,12 +33,12 @@ export class AuthenticationService {
 
   login(loginModel: LoginModel) {
     return this.httpClient
-      .post(environment.apiEndPoint.auth.login, loginModel)
-      .pipe(
-        map((res) => res),
-        map((body) => body),
-        catchError((err) => of(err))
-      );
+      .post(environment.apiEndPoint.auth.login, loginModel);
+      // .pipe(
+      //   map((res) => res),
+      //   map((body) => body),
+      //   catchError((err) => of(err))
+      // );
   }
 
   logOut() {

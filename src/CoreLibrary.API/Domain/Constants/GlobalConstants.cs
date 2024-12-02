@@ -33,4 +33,5 @@ public static class GlobalConstants
     public const string User = "User";
     public const string TemporaryUser = "TemporaryUser";
     public const string DefaultCors = "DefaultCors";
+    public const string SeedDataPath = @"../CoreLibrary.API/Data/{0}.json";
 }
