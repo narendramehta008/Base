@@ -81,7 +81,7 @@ public static class StartupExtension
             app.UseDeveloperExceptionPage();
         }
         app.ConfigureSwagger();
-        app.UseCors();
+        app.UseCors(DefaultCors);
 
         app.UseHttpsRedirection();
 
@@ -104,10 +104,10 @@ public static class StartupExtension
     {
         services.AddCors(options =>
         {
-            options.AddDefaultPolicy(builder =>
+            options.AddPolicy(DefaultCors, builder =>
             {
                 builder.WithOrigins("http://localhost:4200",
-                        "https://localhost:4200")
+                        "https://localhost:4200", "http://corelibrary.azurewebsites.net", "https://corelibrary.azurewebsites.net")
                 .AllowAnyMethod().AllowAnyHeader().AllowCredentials()
                         .WithExposedHeaders("Content-Disposition");
             });
