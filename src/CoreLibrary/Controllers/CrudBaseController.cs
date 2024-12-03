@@ -1,6 +1,7 @@
 ﻿using CoreLibrary.API.Domain.Entities.Base;
 using CoreLibrary.Application.Interfaces;
 using CoreLibrary.Application.Models;
+using CoreLibrary.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

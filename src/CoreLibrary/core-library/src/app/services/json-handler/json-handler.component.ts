@@ -1,38 +1,55 @@
-import { Component } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
+import { Summary } from '@app/core/models/Funcs';
+import { ITableTemplate, TableTemplate } from '@app/core/models/TableTemplate';
 import { UtilsService } from '@app/shared/services/utils.service';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-json-handler',
   templateUrl: './json-handler.component.html',
   styleUrl: './json-handler.component.scss',
 })
-export class JsonHandlerComponent {
-  data = {
-    'simple key': 'simple value',
-    numbers: 1234567,
-    'simple list': ['value1', 22222, 'value3'],
-    'special value': undefined,
-    owner: null,
-    'simple obect': {
-      'simple key': 'simple value',
-      numbers: 1234567,
-      'simple list': ['value1', 22222, 'value3'],
-      'simple obect': {
-        key1: 'value1',
-        key2: 22222,
-        key3: 'value3',
-      },
-    },
-  };
+export class JsonHandlerComponent implements AfterViewInit {
+  parents: Summary[] = [];
+  tableTemplate: ITableTemplate = { dataSource: [] };
 
-  constructor(private utils: UtilsService) {}
+  constructor(private utils: UtilsService, private cdr: ChangeDetectorRef) {}
+  ngAfterViewInit(): void {
+    this.loadData();
+  }
 
+  //https://localhost:7050/api/Summary/GetParents
+  //https://localhost:7050/api/Summary/GetParents
   loadData() {
-    // this.utils
-    //   .getRequest('https://official-joke-api.appspot.com/jokes/random/250')
-    //   .subscribe((resp) => {
-    //     console.log(resp);
-    //     if (typeof resp == 'string') this.data = resp;
-    //   });
+    this.utils
+      .getRequest(environment.apiEndPoint.summary.getParents)
+      .subscribe({
+        next: (response: Summary[]) => {
+          this.parents = response;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.parents = [];
+          console.log(error);
+        },
+      });
+  }
+
+  populateChilds(id: number) {
+    console.log('load data');
+    this.utils
+      .getRequest(
+        this.utils.format(environment.apiEndPoint.summary.getChilds, id)
+      )
+      .subscribe({
+        next: (response: Summary[]) => {
+          this.tableTemplate.dataSource = response[0].summaries;
+          this.tableTemplate = new TableTemplate(this.tableTemplate, this.cdr);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.parents = [];
+          console.log(error);
+        },
+      });
   }
 }

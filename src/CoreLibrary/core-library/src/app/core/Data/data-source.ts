@@ -49,9 +49,10 @@ export class DataSource {
       'https://i.pinimg.com/474x/76/6b/e3/766be3f9933387e3b8086d16341a450a.jpg',
     ];
   }
-  getSummaries(){
+  getSummaries() {
     return [
       {
+        id: 1,
         header: 'Data Structures',
         lines: [
           'It is the systematic way to organized data so, that we can used it in efficiently.',
@@ -70,6 +71,7 @@ export class DataSource {
         ],
       },
       {
+        id: 2,
         header: 'Algorithm',
         lines: [
           'step by step process to solve any problem.',
@@ -77,6 +79,7 @@ export class DataSource {
         ],
       },
       {
+        id: 3,
         header: 'Data types',
         lines: [
           'types of variable we can define on basis of operations we want to perform',
@@ -87,6 +90,7 @@ export class DataSource {
         ],
       },
       {
+        id: 4,
         header: 'Big O',
         lines: [
           'It describes limiting behaviour of function, when it moving towards particular value or infinity.',
@@ -103,6 +107,7 @@ export class DataSource {
       },
 
       {
+        id: 5,
         header: 'Array',
         lines: [
           'It is way of storing data of same type in contiguous memory locations.',
@@ -112,6 +117,7 @@ export class DataSource {
         ],
       },
       {
+        id: 6,
         header: 'Stack',
         lines: [
           'It is a sequential DS in which we add or remove elements to LIFO principle, It have push, pop, peek, contains methods.',
@@ -151,6 +157,7 @@ export class DataSource {
         ],
       },
       {
+        id: 7,
         header: 'Queue',
         lines: [
           'It is a sequential DS which follows FIFO principle, It have head where we enqueue (enter) and tail where we dequeue(delete), peek, contains methods. .',
@@ -192,6 +199,7 @@ export class DataSource {
         ],
       },
       {
+        id: 8,
         header: 'Linked List',
         lines: [
           'List of objects, it have two piece of data one value and other holds address of next object therefore it referred as Linked List',
@@ -293,6 +301,7 @@ export class DataSource {
         ],
       },
       {
+        id: 9,
         header: 'Dictionary',
         lines: [
           `It is a Abstract DS also called Maps and Associative Arrays, which store data in form of key/value pairs.
@@ -302,6 +311,7 @@ export class DataSource {
         ],
       },
       {
+        id: 10,
         header: 'HashTable',
         lines: [
           `It store data in associated manner, it stores data in array format where it have unique index value and data value.`,
@@ -311,6 +321,7 @@ export class DataSource {
         ],
       },
       {
+        id: 11,
         header: 'Hashing',
         lines: [
           `It is technique to convert range/list of key values into range/list of indexes of an array`,
@@ -318,6 +329,7 @@ export class DataSource {
         ],
       },
       {
+        id: 12,
         header: 'Trees',
         lines: [
           `An ADS which contains series of linked nodes connected to form a hierachical representation. here Linked list pointing towards multiple locations`,
@@ -334,6 +346,7 @@ export class DataSource {
         ],
       },
       {
+        id: 3,
         header: 'Heap',
         lines: [
           `It is a special type of tree where all child nodes are compare to their parent Node `,
@@ -342,6 +355,7 @@ export class DataSource {
         ],
       },
       {
+        id: 14,
         header: 'Graph',
         lines: [
           `A non linear DS consist of Nodes and Edges`,
@@ -355,6 +369,7 @@ export class DataSource {
         summaryHeader: 'Applications',
         summaries: [
           {
+            id: 15,
             header: 'Tries',
             lines: [
               `It is tree like structure whose nodes stores letter of alphabets in form of characters, 

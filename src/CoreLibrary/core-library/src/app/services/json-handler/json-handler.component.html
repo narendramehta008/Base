@@ -1,3 +1,36 @@
-<div class="bg-bright rounded p-2 mb-2">
-    <ngx-json-viewer class="bg-bright rounded p-2 mb-2" [json]="data"></ngx-json-viewer>
+<div class="flex">
+
+    <button class="btn btn-primary mx-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJsonData"
+        aria-expanded="false" aria-controls="collapseJsonData">
+        JsonData
+    </button>
+
+    <button class="btn btn-primary  mx-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJsonTable"
+        aria-expanded="false" aria-controls="collapseJsonTable">
+        Json Table
+    </button>
+
+    <div *ngIf="parents.length" class="btn-group dropend">
+        <button type="button" class="btn btn-secondary  dropdown-toggle" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Parents
+        </button>
+        <ul class="dropdown-menu">
+            <li *ngFor="let parent of parents"><a class="dropdown-item"
+                    (click)="populateChilds(parent.id)">{{parent.header}}</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="bg-bright rounded p-2 mb-2 collapse" id="collapseJsonData">
+    <ngx-json-viewer class="bg-bright rounded p-2 mb-2" [json]="this.parents"></ngx-json-viewer>
+</div>
+
+<div id="collapseJsonTable" class="m-2">
+    <btsp-table [tableTemplate]="tableTemplate">
+        <btsp-col *ngFor="let col of tableTemplate?.cols" [dataField]="col.dataField"
+            [caption]="col.caption||col.dataField" headerClass="text-secondary opacity-25 text-capitalize"
+            dataClass="glassom text-white"></btsp-col>
+
+    </btsp-table>
 </div>

@@ -19,6 +19,8 @@ public class DbRepository : DbRepository<DataContext>, IDbRepository
         if (request != null)
         {
             if (request.Filter != null) query = query.Where(request.Filter);
+            if (request.Includes != null)
+                query = request.Includes.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
 
             if (request.OrderBy != null) query = request.OrderBy(query);
 

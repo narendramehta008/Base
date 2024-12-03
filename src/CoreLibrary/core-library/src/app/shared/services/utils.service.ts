@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Routes, Router, Route } from '@angular/router';
 import { FileSaverService } from 'ngx-filesaver';
 import { Observable, catchError, map, of } from 'rxjs';
-import * as _ from "lodash"
+import * as _ from 'lodash';
 
 export interface IRoutes {
   parent: Route;
@@ -18,7 +18,7 @@ export class UtilsService {
     private router: Router,
     private httpClient: HttpClient,
     private fileSaver: FileSaverService
-  ) { }
+  ) {}
 
   routes: Routes = [];
   downloadWithResponseFileName(
@@ -84,6 +84,11 @@ export class UtilsService {
     return url.replace(reg, '');
   }
 
+  format(input: string, ...args: any[]): string {
+    return input.replace(/{(\d+)}/g, function (match, number) {
+      return typeof args[number] != 'undefined' ? args[number] : match;
+    });
+  }
 
   makeSummaryTree(nodes: any[], parentId: any): any {
     return nodes
@@ -93,9 +98,10 @@ export class UtilsService {
           ...tree,
           {
             ...node,
-            summaries:this.makeSummaryTree(nodes, node.id)
-          }
+            summaries: this.makeSummaryTree(nodes, node.id),
+          },
         ],
         []
-      ); }
+      );
+  }
 }

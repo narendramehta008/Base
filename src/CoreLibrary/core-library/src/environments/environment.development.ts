@@ -1,6 +1,8 @@
 export const environment = {
-  serverUrl: 'https://localhost:7050/api/',
   // serverUrl: 'https://corelibraryapi.azurewebsites.net/api/',
+  // serverOrigin: 'https://corelibraryapi.azurewebsites.net/',
+
+  serverUrl: 'https://localhost:7050/api/',
   serverOrigin: 'https://localhost:7050',
   tokenName: 'tokenDetails',
   apiEndPoint: {
@@ -16,12 +18,16 @@ export const environment = {
       get: 'apiManager/Get',
       post: 'apiManager/POst',
     },
-    data:{
-      getByTypeId:'Data/{0}?type={1}',
-      getByType:'Data?type={0}',
-      getAll:'Data/GetAll',
-      get:'Data'
-    }
+    data: {
+      getByTypeId: 'Data/{0}?type={1}',
+      getByType: 'Data?type={0}',
+      getAll: 'Data/GetAll',
+      get: 'Data',
+    },
+    summary: {
+      getParents: 'Summary/GetParents',
+      getChilds: 'Summary/GetChilds/{0}',
+    },
   },
   production: false,
 };

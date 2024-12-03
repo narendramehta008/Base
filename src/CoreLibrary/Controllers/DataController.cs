@@ -5,6 +5,7 @@ using CoreLibrary.Application.Models;
 using CoreLibrary.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace CoreLibrary.Controllers;
@@ -127,4 +128,17 @@ public class SummaryController : CrudBaseController<Summary>
     {
     }
 
+    [HttpGet("[action]")]
+    public IActionResult GetParents()
+    {
+        var result = _dbRepository.Where<Summary>(a => a.ParentId == null);
+        return Ok(result);
+    }
+
+    [HttpGet("[action]/{id}")]
+    public IActionResult GetChilds(int id)
+    {
+        var result = _dbRepository.Where<Summary>(a => a.Id == id).Include(a => a.Summaries);
+        return Ok(result);
+    }
 }
