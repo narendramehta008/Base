@@ -1,9 +1,9 @@
 export const environment = {
-  // serverUrl: 'https://corelibraryapi.azurewebsites.net/api/',
-  // serverOrigin: 'https://corelibraryapi.azurewebsites.net/',
+  serverUrl: 'https://corelibraryapi.azurewebsites.net/api/',
+  serverOrigin: 'https://corelibraryapi.azurewebsites.net/',
 
-  serverUrl: 'https://localhost:7050/api/',
-  serverOrigin: 'https://localhost:7050',
+  // serverUrl: 'https://localhost:7050/api/',
+  // serverOrigin: 'https://localhost:7050',
   tokenName: 'tokenDetails',
   apiEndPoint: {
     auth: {

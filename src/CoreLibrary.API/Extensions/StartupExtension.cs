@@ -7,17 +7,13 @@ using System.Text;
 using CoreLibrary.API.Repositories;
 using CoreLibrary.API.Domain.Interfaces.Services;
 using CoreLibrary.API.Domain.Services.Repositories;
-using CoreLibrary.API.Domain.Services;
 using CoreLibrary.API.Strategy;
 using CoreLibrary.API.Services.Mappings;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using System.Text.Json.Serialization;
 
 namespace CoreLibrary.API.Extensions;
 
 public static class StartupExtension
 {
-    private static bool IsAuthentication = false;
     // This method gets called by the runtime. Use this method to add services to the container.
     public static IServiceCollection ConfigureServices(this IServiceCollection services)
     {
