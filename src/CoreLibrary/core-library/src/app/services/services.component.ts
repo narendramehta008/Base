@@ -12,7 +12,6 @@ import { routes } from './services-routing.module';
 })
 export class ServicesComponent implements AfterContentChecked {
   dataSource: CardComponent[] = [];
-  images: string[] = [];
   isChildActivated = false;
 
   constructor(
@@ -26,47 +25,22 @@ export class ServicesComponent implements AfterContentChecked {
 
   //https://similarpng.com/
   ngOnInit(): void {
-    this.images = new DataSource().getImages();
 
-    let card = [
-      new CardComponent(this.utilService).setCardValue({
-        title: 'JSON Handler',
+    let card =   routes.slice(1).map(child=>{
+     return new CardComponent(this.utilService).setCardValue({
+        title: child.data?.['title'],
         fontClass: 'fg-theme',
         cardClass: 'card-neu',
         media: {
-          src: routes[1].data?.['icon'],
+          src: child.data?.['icon'],
         },
         onHoverShowDetails: true,
-        redirectUrl: `/services/${routes[1].path}`,
+        redirectUrl: `/services/${child.path}`,
         redirectName: 'Visit',
-        text: 'JSON (JavaScript Object Notation) is a lightweight data-interchange format.',
-      }),
-      new CardComponent(this.utilService).setCardValue({
-        title: 'Learning',
-        fontClass: 'fg-theme',
-        cardClass: 'card-neu',
-        media: {
-          src: routes[2].data?.['icon'],
-        },
-        onHoverShowDetails: true,
-        redirectUrl: `/services/${routes[2].path}`,
-        redirectName: 'Visit',
-        text: 'Learning is the process of acquiring new understanding, knowledge, behaviors, skills, values, attitudes, and preferences.',
-      }),
-
-      new CardComponent(this.utilService).setCardValue({
-        title: 'Data Manipulation',
-        fontClass: 'fg-theme',
-        cardClass: 'card-neu',
-        media: {
-          src: routes[3].data?.['icon'],
-        },
-        onHoverShowDetails: true,
-        redirectUrl: `/services/${routes[3].path}`,
-        redirectName: 'Visit',
-        text: 'Data Manipulation',
-      }),
-    ];
+        text: child.data?.['text'] ?? child.data?.['title'],
+      });
+    });
+   
     this.dataSource.push(...card);
   }
 }

@@ -47,7 +47,6 @@ export class TableComponent implements OnInit {
 
   ngAfterContentInit() {
     this.tableTemplate && (this.tableTemplate.cols = this.cols);
-    // console.log(this.cols);
     this.cdr.detectChanges();
   }
 
@@ -56,7 +55,6 @@ export class TableComponent implements OnInit {
   }
 
   display(data: any): string {
-    console.log(data);
     return 'temp';
   }
 }

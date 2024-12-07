@@ -83,7 +83,6 @@ export class DataHandlerComponent implements OnInit {
         })
         .subscribe((res) => {
           let result: string = '';
-          console.log(res);
           if (typeof res == 'string') result = res;
           else result = JSON.stringify(res);
           this.getControl('data').setValue(result);
@@ -116,11 +115,14 @@ export class DataHandlerComponent implements OnInit {
       this.getControlValue('query')
     );
     if (results) {
-      this.results.push(
-        ...Array.from(results).map((a) =>
-          typeof a == 'string' ? a : JSON.stringify(a)
-        )
-      );
+
+      if (Array.isArray(results))
+        this.results.push(
+          ...Array.from(results).map((a) =>
+            typeof a == 'string' ? a : JSON.stringify(a)
+          )
+        );
+        else  this.results.push(JSON.stringify(results));
       this.resultsString = this.results.join('\n');
     }
   }
@@ -129,23 +131,22 @@ export class DataHandlerComponent implements OnInit {
     const data = this.getControlValue('data');
     if (!data) return;
 
-    if(this.getControlValue('predefinedOperations')==1){
+    if (this.getControlValue('predefinedOperations') == 1) {
       const parser = new DOMParser();
       const htmlDoc = parser.parseFromString(data,
         'text/html'
       );
-  
+
       this.results = Array.from(htmlDoc.getElementsByTagName('img')).map(
         (a) => a.currentSrc || a.src
       );
     }
-    else{
+    else {
       const parser = new DOMParser();
       const htmlDoc = parser.parseFromString(data,
         'text/html'
       );
       let results = htmlDoc.querySelector(this.getControlValue('query'));
-      console.log(results);
       if (results) {
         this.results.push(
           ...Array.from(results).map((a) =>
@@ -156,9 +157,6 @@ export class DataHandlerComponent implements OnInit {
       }
     }
 
-    
-   
-    
   }
 
   populateCards() {

@@ -380,4 +380,11 @@ export class DataSource {
       },
     ];
   }
+  getJmesQueries() {
+    return [
+      'paths.keys(@)',
+      `results[*].{media:{src:image_url,type:'Image'},title:title,text:seo_title_formatted, onHoverShowDetails:'true', showDownload:'true'}`
+    ]
+
+  }
 }

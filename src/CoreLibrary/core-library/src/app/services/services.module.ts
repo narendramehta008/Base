@@ -10,6 +10,7 @@ import { LearningComponent } from './learning/learning.component';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { DataHandlerComponent } from './data-handler/data-handler.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToolsComponent } from './tools/tools.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     JsonHandlerComponent,
     LearningComponent,
     DataHandlerComponent,
+    ToolsComponent
   ],
   imports: [
     CommonModule,

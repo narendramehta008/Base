@@ -39,7 +39,6 @@ export class LoginComponent {
         }
       },
       error: (error: any) => {
-        console.log(error);
         this.errorMessage = error.message || error.statusText || 'Something went wrong';
       }
     });

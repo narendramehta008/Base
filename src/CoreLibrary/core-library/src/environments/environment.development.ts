@@ -4,6 +4,7 @@ export const environment = {
 
   // serverUrl: 'https://localhost:7050/api/',
   // serverOrigin: 'https://localhost:7050',
+  swaggerUrl:'swagger/v1/swagger.json',
   tokenName: 'tokenDetails',
   apiEndPoint: {
     auth: {

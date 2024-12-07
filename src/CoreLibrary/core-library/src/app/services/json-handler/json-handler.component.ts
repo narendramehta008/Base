@@ -52,13 +52,11 @@ export class JsonHandlerComponent implements AfterViewInit, OnInit {
         },
         error: (error: HttpErrorResponse) => {
           this.parents = [];
-          console.log(error);
         },
       });
   }
 
   populateChilds() {
-    console.log('test');
     let id = this.getControlValue('parent');
     this.utils
       .getRequest(
@@ -71,7 +69,6 @@ export class JsonHandlerComponent implements AfterViewInit, OnInit {
         },
         error: (error: HttpErrorResponse) => {
           this.parents = [];
-          console.log(error);
         },
       });
   }

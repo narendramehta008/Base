@@ -4,6 +4,8 @@ import { Routes, Router, Route } from '@angular/router';
 import { FileSaverService } from 'ngx-filesaver';
 import { Observable, catchError, map, of } from 'rxjs';
 import * as _ from 'lodash';
+import { environment } from '@environments/environment';
+import { TokenModel } from '../models/token-models';
 
 export interface IRoutes {
   parent: Route;
@@ -103,5 +105,15 @@ export class UtilsService {
         ],
         []
       );
+  }
+
+  getTokenDetails():any{
+    let token='';
+    const tokenDetails = localStorage.getItem(environment.tokenName) || null;
+    if (tokenDetails) {
+        let tempTokenDetail: TokenModel = JSON.parse(tokenDetails);
+        token = tempTokenDetail.token;
+    }
+   return {Authorization: `Bearer ${token}`};
   }
 }

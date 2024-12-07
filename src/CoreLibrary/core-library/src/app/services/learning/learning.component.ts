@@ -24,7 +24,6 @@ export class LearningComponent implements OnInit {
     }).subscribe({
       next: (response: Summary[]) => {
         this.summarys = this.utils.makeSummaryTree(response, 1);
-        console.log(this.summarys);
       }, error: (error) => {
         console.log(error);
       }
