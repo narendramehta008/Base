@@ -1,0 +1,10 @@
+<ng-container *ngTemplateOutlet="loader?loaderTemplate:allLoaders;">
+</ng-container>
+
+<ng-template #allLoaders>
+    <div  id="collection" class="container row" [innerHTML]="ringCollectionHtml"></div>
+</ng-template>
+
+<ng-template #loaderTemplate>
+<div id="loader" [attr.color]="color" [attr.loader]="loader" [attr.size]="size" [attr.speed]="speed"></div>
+</ng-template>

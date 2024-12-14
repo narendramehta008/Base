@@ -28,6 +28,7 @@
     "bootstrap": "^5.3.2",
     "express": "^4.18.2",
     "jwt-decode": "^4.0.0",
+    "ldrs": "^1.0.2",
     "ngx-filesaver": "^18.0.0",
     "ngx-json-viewer": "^3.2.1",
     "rxjs": "~7.8.0",
