@@ -55,7 +55,7 @@
     <ngx-json-viewer class="bg-bright rounded p-2 mb-2" [json]="tableTemplate.dataSource"></ngx-json-viewer>
 </div>
 
-<btsp-table [tableTemplate]="tableTemplate">
+<btsp-table [tableTemplate]="tableTemplate" type="TreeGrid">
     <btsp-col *ngFor="let col of tableTemplate?.cols" [dataField]="col.dataField" [caption]="col.caption||col.dataField"
         headerClass="text-secondary opacity-25 text-capitalize" dataClass="glassom text-white"></btsp-col>
 

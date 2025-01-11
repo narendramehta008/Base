@@ -4,7 +4,6 @@ import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LoginModel } from '../models/authentication-models';
-import { catchError, map, of, throwError } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { jwtDecode } from "jwt-decode";
 

@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Summary } from '@app/core/models/Funcs';
-import { ITableTemplate, TableTemplate } from '@app/core/models/TableTemplate';
+import { TableTemplate } from '@app/shared/btsp/core/TableTemplate';
 import { UtilsService } from '@app/shared/services/utils.service';
 import { environment } from '@environments/environment';
 
@@ -18,12 +18,17 @@ import { environment } from '@environments/environment';
 })
 export class JsonHandlerComponent implements AfterViewInit, OnInit {
   parents: Summary[] = [];
-  tableTemplate: ITableTemplate = { dataSource: [] };
+  tableTemplate: TableTemplate;
   jsonData: any = '';
   showJsonData = true;
   dataFormGroup: FormGroup = new FormGroup({});
 
-  constructor(private utils: UtilsService, private cdr: ChangeDetectorRef) {}
+  constructor(private utils: UtilsService, private cdr: ChangeDetectorRef) {
+    this.tableTemplate = new TableTemplate(this.cdr);
+    this.tableTemplate.childRequestInterceptor = (data: Summary) =>
+      new HttpRequest('GET', this.utils.format(environment.apiEndPoint.summary.getChilds, data.id));
+    this.tableTemplate.childResponseInterceptor = (response) => (response?.length > 0 && response[0].summaries) ?? [];
+  }
 
   ngOnInit(): void {
     // this.dataFormGroup.addControl('parent', new FormControl(1));
@@ -47,7 +52,7 @@ export class JsonHandlerComponent implements AfterViewInit, OnInit {
       .subscribe({
         next: (response: Summary[]) => {
           this.parents = response; //[0].summaries ?? [];
-          this.populateChilds();
+          this.populateChilds(this.getControlValue('parent'));
           this.jsonData = response;
         },
         error: (error: HttpErrorResponse) => {
@@ -56,25 +61,27 @@ export class JsonHandlerComponent implements AfterViewInit, OnInit {
       });
   }
 
-  populateChilds() {
-    let id = this.getControlValue('parent');
-    this.utils
-      .getRequest(
-        this.utils.format(environment.apiEndPoint.summary.getChilds, id)
-      )
-      .subscribe({
-        next: (response: Summary[]) => {
-          this.tableTemplate.dataSource = response[0].summaries ?? [];
-          this.tableTemplate = new TableTemplate(this.tableTemplate, this.cdr);
-        },
-        error: (error: HttpErrorResponse) => {
-          this.parents = [];
-        },
-      });
+  populateChilds(id?: string) {
+    this.getChilds(id).subscribe({
+      next: (response) => {
+        this.tableTemplate.dataSource.set(response[0].summaries ?? []);
+      },
+      error: (error: HttpErrorResponse) => {
+       console.log(error);
+      },
+    });
   }
 
+  getChilds(id?: string) {
+    return this.utils
+      .get<Summary[]>(
+        this.utils.format(environment.apiEndPoint.summary.getChilds, id)
+      );
+  }
+
+
   errorMessage = '';
-  onSubmit() {}
+  onSubmit() { }
 
   getControlValue(controlName: string) {
     return this.getControl(controlName).value;

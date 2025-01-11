@@ -27,6 +27,7 @@ export class LoaderComponent implements AfterViewInit {
     
   }
   ngAfterViewInit(): void {
+    console.log(ldrs);
     if (this.loader)
       this.loaders?.[this.loader].register('btsp-loader');
     else

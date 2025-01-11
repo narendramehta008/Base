@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHandler, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Routes, Router, Route } from '@angular/router';
 import { FileSaverService } from 'ngx-filesaver';
@@ -15,12 +15,15 @@ export interface IRoutes {
 @Injectable({
   providedIn: 'root',
 })
-export class UtilsService {
+export class UtilsService extends HttpClient {
   constructor(
     private router: Router,
-    private httpClient: HttpClient,
-    private fileSaver: FileSaverService
-  ) {}
+     private httpClient: HttpClient,
+    private fileSaver: FileSaverService,
+      handler: HttpHandler
+  ) {
+    super(handler);
+  }
 
   routes: Routes = [];
   downloadWithResponseFileName(

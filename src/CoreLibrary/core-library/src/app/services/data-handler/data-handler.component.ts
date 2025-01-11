@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { IKeyValue } from '@app/core/models/Funcs';
-import { ITableTemplate, TableTemplate } from '@app/core/models/TableTemplate';
 import {
   CardComponent,
 } from '@app/shared/btsp/card/card.component';
+import { TableTemplate } from '@app/shared/btsp/core/TableTemplate';
 import { UtilsService } from '@app/shared/services/utils.service';
 import { environment } from '@environments/environment.development';
 import { search } from '@metrichor/jmespath';
@@ -42,9 +42,12 @@ export class DataHandlerComponent implements OnInit {
   ];
   errorMessage = '';
   dataSource: CardComponent[] = [];
-  tableTemplate: ITableTemplate = { dataSource: [] };
+  tableTemplate: TableTemplate;
 
-  constructor(private utils: UtilsService, private cdr: ChangeDetectorRef) { }
+  constructor(private utils: UtilsService, private cdr: ChangeDetectorRef) {
+    this.tableTemplate = new TableTemplate(this.cdr);
+  }
+
 
   ngOnInit(): void {
     this.dataFormGroup.addControl(
@@ -122,7 +125,7 @@ export class DataHandlerComponent implements OnInit {
             typeof a == 'string' ? a : JSON.stringify(a)
           )
         );
-        else  this.results.push(JSON.stringify(results));
+      else this.results.push(JSON.stringify(results));
       this.resultsString = this.results.join('\n');
     }
   }
@@ -175,10 +178,10 @@ export class DataHandlerComponent implements OnInit {
 
   populateTable() {
     this.resultsString = this.results.join('\n');
-    this.tableTemplate.dataSource = this.results.map((item) =>
+    this.tableTemplate.dataSource.set(this.results.map((item) =>
       JSON.parse(item)
-    );
-    this.tableTemplate = new TableTemplate(this.tableTemplate, this.cdr);
+    ));
+    // this.tableTemplate = new TableTemplate(this.cdr);
   }
 
   resetData() {

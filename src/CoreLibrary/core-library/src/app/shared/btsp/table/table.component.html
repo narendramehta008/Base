@@ -7,19 +7,30 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let data of tableTemplate.dataSource; index as i">
-                <!-- <th scope="row">1</th> -->
-
-                <td *ngFor="let col of tableTemplate.cols" [ngClass]="col.dataClass">
-                    <ng-container
-                        *ngTemplateOutlet="col.customItem ?col.customItem: dataTemplate; context: {item:data, col:col}">
-                    </ng-container>
-
-                </td>
-            </tr>
+            <ng-container
+                *ngTemplateOutlet="tableTemplate.dataSource() ?rowTemplate: null; context: {dataSource:tableTemplate.dataSource()}">
+            </ng-container>
         </tbody>
     </table>
 </div>
+
+<ng-template #rowTemplate let-dataSource="dataSource">
+
+    <tr *ngFor="let data of dataSource">
+
+        <td *ngFor="let col of tableTemplate?.cols;index as i" [ngClass]="col.dataClass">
+            <i *ngFor="let level of array(data.treeLevel)">&emsp;</i>
+
+            <i *ngIf="type=='TreeGrid' && i==0" [class]="data.expanded?'fa fa-angle-up':'fa fa-angle-right'"
+                (click)="expandChild(data)"></i>
+            <ng-container
+                *ngTemplateOutlet="col.customItem ? col.customItem: dataTemplate; context: {item:data, col:col}">
+            </ng-container>
+
+        </td>
+    </tr>
+
+</ng-template>
 
 <ng-template #dataTemplate let-data="item" let-col="col">
     {{data[col.dataField]}}
